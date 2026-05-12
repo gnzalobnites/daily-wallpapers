@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="Theme.DailyWallpapers" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Colores primarios y secundarios (se usan con ?attr/colorPrimary, etc.) -->
+        <item name="colorPrimary">@color/purple_500</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorPrimaryContainer">#FFE9DDFF</item> 
+        <item name="colorOnPrimaryContainer">#FF24004D</item> 
+
+        <item name="colorSecondary">@color/teal_200</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <item name="colorSecondaryContainer">#FFD6F8F2</item> 
+        <item name="colorOnSecondaryContainer">#FF00201C</item> 
+
+        <!-- Colores de superficie y fondo -->
+        <item name="android:colorBackground">@color/white</item>
+        <item name="colorSurface">@color/white</item>
+        <item name="colorOnSurface">@color/black</item>
+        <item name="colorOnSurfaceVariant">#FF494949</item> 
+        <item name="colorSurfaceContainer">#FFF0F0F0</item> 
+
+        <!-- Barras del sistema -->
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar">true</item>
+
+        <!-- Estilos de botones (usarán los colores del tema automáticamente) -->
+        <item name="materialButtonStyle">@style/Widget.Material3.Button</item>
+        <item name="materialButtonOutlinedStyle">@style/Widget.Material3.Button.OutlinedButton</item>
+    </style>
+
+    <!-- Estilo para el BottomSheet (sin cambios, funciona bien) -->
+    <style name="CustomBottomSheetDialogTheme" parent="Theme.Material3.Light.BottomSheetDialog">
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="bottomSheetStyle">@style/CustomBottomSheetStyle</item>
+    </style>
+
+    <style name="CustomBottomSheetStyle" parent="Widget.Material3.BottomSheet">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="shapeAppearanceOverlay">@style/CustomBottomSheetShape</item>
+    </style>
+
+    <style name="CustomBottomSheetShape">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">0dp</item>
+    </style>
+
+    <!-- Estilo para diálogos -->
+    <style name="CustomMaterialDialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="android:windowIsFloating">true</item>
+        <item name="shapeAppearanceOverlay">@style/CustomDialogShape</item>
+    </style>
+
+    <style name="CustomDialogShape">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">16dp</item>
+    </style>
+
+    <style name="FullScreenDialogTheme" parent="Theme.Material3.Light.BottomSheetDialog">
+       <item name="android:windowIsFloating">false</item>
+       <item name="android:windowBackground">@android:color/transparent</item>
+       <item name="android:statusBarColor">@android:color/transparent</item>
+       <item name="android:navigationBarColor">@android:color/transparent</item>
+    </style>
+
+</resources>

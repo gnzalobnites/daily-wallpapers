@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="Theme.DailyWallpapers" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/purple_500</item>
+        <item name="colorOnPrimary">@color/black</item> 
+        <item name="colorPrimaryContainer">#FF4A2B73</item> 
+        <item name="colorOnPrimaryContainer">#FFE9DDFF</item> 
+
+        <item name="colorSecondary">@color/teal_200</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <item name="colorSecondaryContainer">#FF18746A</item> 
+        <item name="colorOnSecondaryContainer">#FFD6F8F2</item>
+
+        <!-- Colores de superficie y fondo (oscuros) -->
+        <item name="android:colorBackground">@color/black</item>
+        <item name="colorSurface">#FF1E1E1E</item> 
+        <item name="colorOnSurface">@color/white</item> 
+        <item name="colorOnSurfaceVariant">#FFB0B0B0</item> 
+        <item name="colorSurfaceContainer">#FF2C2C2C</item> 
+
+        <!-- Barras del sistema (iconos en modo claro) -->
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">false</item> 
+        <item name="android:windowLightNavigationBar">false</item> 
+
+        <!-- Estilos de botones (sin cambios) -->
+        <item name="materialButtonStyle">@style/Widget.Material3.Button</item>
+        <item name="materialButtonOutlinedStyle">@style/Widget.Material3.Button.OutlinedButton</item>
+    </style>
+
+    <!-- Si usas BottomSheets o Diálogos, también deberías crear sus versiones para la noche,
+         pero por ahora heredarán del tema base y se verán bien. -->
+    <style name="CustomBottomSheetDialogTheme" parent="Theme.Material3.Dark.BottomSheetDialog">
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="bottomSheetStyle">@style/CustomBottomSheetStyleNight</item>
+    </style>
+
+    <style name="CustomBottomSheetStyleNight" parent="Widget.Material3.BottomSheet">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="shapeAppearanceOverlay">@style/CustomBottomSheetShape</item>
+    </style>
+
+    <style name="FullScreenDialogTheme" parent="Theme.Material3.Dark.BottomSheetDialog">
+       <item name="android:windowIsFloating">false</item>
+       <item name="android:windowBackground">@android:color/transparent</item>
+       <item name="android:statusBarColor">@android:color/transparent</item>
+       <item name="android:navigationBarColor">@android:color/transparent</item>
+    </style>
+
+</resources>

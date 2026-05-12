@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/mainFragment">
+
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.gnzalobnites.dailywallpapers.ui.main.MainFragment"
+        android:label="Daily Wallpapers"
+        tools:layout="@layout/fragment_main">
+        
+        <action
+            android:id="@+id/action_main_to_history"
+            app:destination="@id/historyFragment" />
+        
+        <action
+            android:id="@+id/action_main_to_settings"
+            app:destination="@id/settingsFragment" />
+        
+        <action
+            android:id="@+id/action_main_to_about"
+            app:destination="@id/aboutFragment" />
+        
+    </fragment>
+
+    <fragment
+        android:id="@+id/historyFragment"
+        android:name="com.gnzalobnites.dailywallpapers.ui.history.HistoryFragment"
+        android:label="Historial"
+        tools:layout="@layout/fragment_history" />
+
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.gnzalobnites.dailywallpapers.ui.settings.SettingsFragment"
+        android:label="Configuración"
+        tools:layout="@layout/fragment_settings" />
+
+    <fragment
+        android:id="@+id/aboutFragment"
+        android:name="com.gnzalobnites.dailywallpapers.ui.about.AboutFragment"
+        android:label="Acerca de"
+        tools:layout="@layout/fragment_about" />
+
+</navigation>

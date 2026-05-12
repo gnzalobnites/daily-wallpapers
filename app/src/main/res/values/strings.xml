@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    
+    <string name="app_name">Daily Wallpapers</string>
+    
+    
+    <string name="action_settings">Configuración</string>
+    
+    
+    <string name="menu_home">Inicio</string>
+    
+    
+    <string name="menu_gallery">Galería</string>
+    
+    
+    <string name="menu_slideshow">Presentación</string>
+    
+    
+    <string name="nav_header_desc">Navegación</string>
+    
+    
+    <string name="nav_header_title">Daily Wallpapers</string>
+    
+    
+    <string name="nav_header_subtitle">por Gonzalo Gastón Benites</string>
+    
+
+    <string name="about_close">Cerrar</string>
+    <string name="about_copyright">© 2024 Gonzalo Benites. Todos los derechos reservados.</string>
+    <string name="about_developer">Desarrollador</string>
+    <string name="about_developer_info">Gonzalo Benites</string>
+    <string name="about_libraries">Librerías</string>
+    <string name="about_open_source">Código abierto</string>
+    <string name="about_open_source_text">Esta aplicación es de código abierto. Puedes encontrar el código en GitHub.</string>
+    <string name="about_privacy">Política de privacidad</string>
+    <string name="about_privacy_text">Esta aplicación no recopila datos personales. Las imágenes son obtenidas de la API pública de Bing.</string>
+    <string name="about_version">Versión %s</string>
+    <string name="about_version_unknown">Versión desconocida</string>
+    <string name="add_favorite">Añadir a favoritos</string>
+    <string name="app_title">Daily Wallpapers</string>
+    <string name="apply_button">Aplicar</string>
+    <string name="apply_dialog_message">¿Dónde quieres aplicar el wallpaper?</string>
+    <string name="apply_dialog_title">Aplicar wallpaper</string>
+    <string name="apply_lock_button">Aplicar a pantalla bloqueo</string>
+    <string name="both_screens">Ambas pantallas</string>
+    <string name="cancel">Cancelar</string>
+    <string name="copyright_separator"> · </string>
+    <string name="dark_mode_dialog_title">Modo oscuro</string>
+    <string name="date_unavailable">Fecha no disponible</string>
+    <string name="error_applying">Error al aplicar: %s</string>
+    <string name="error_download">Error al descargar: %s</string>
+    <string name="error_loading">Error al cargar: %s</string>
+    <string name="error_no_image">No hay imagen para aplicar</string>
+    <string name="error_saving">Error al guardar: %s</string>
+    <string name="error_title">Error</string>
+    <string name="file_name_format">wallpaper_%d.jpg</string>
+    <string name="history_empty">No hay wallpapers en el historial</string>
+    <string name="home_screen">Pantalla de inicio</string>
+    <string name="interval_dialog_title">Frecuencia de actualización</string>
+    <string name="language_dialog_title">Idioma</string>
+    <string name="lock_screen">Pantalla de bloqueo</string>
+    <string name="open_gallery">Abrir galería: %s</string>
+    <string name="permission_required">Permiso requerido para guardar en galería</string>
+    <string name="placeholder_gallery">Esta es la galería</string>
+    <string name="placeholder_home">Este es el inicio</string>
+    <string name="placeholder_slideshow">Esta es la presentación</string>
+    <string name="preview_apply_button">Aplicar wallpaper</string>
+    <string name="refresh_content_description">Actualizar</string>
+    <string name="remove_favorite">Quitar de favoritos</string>
+    <string name="resolution_dialog_title">Resolución del wallpaper</string>
+    <string name="settings_appearance">Apariencia</string>
+    <string name="settings_auto_apply">Aplicar automáticamente</string>
+    <string name="settings_auto_update">Actualización automática</string>
+    <string name="settings_auto_update_summary">Actualizar wallpaper automáticamente</string>
+    <string name="settings_dark_mode">Modo oscuro</string>
+    <string name="settings_dark_mode_dark">Oscuro</string>
+    <string name="settings_dark_mode_light">Claro</string>
+    <string name="settings_dark_mode_system">Sistema</string>
+    <string name="settings_english">Inglés</string>
+    <string name="settings_frequency">Frecuencia</string>
+    <string name="settings_interval_12h">Cada 12 horas</string>
+    <string name="settings_interval_24h">Cada 24 horas</string>
+    <string name="settings_interval_6h">Cada 6 horas</string>
+    <string name="settings_language">Idioma</string>
+    <string name="settings_resolution">Resolución</string>
+    <string name="settings_resolution_hd">HD (1920x1080)</string>
+    <string name="settings_resolution_mobile">Móvil (1080x1920)</string>
+    <string name="settings_save_history">Guardar en historial</string>
+    <string name="settings_spanish">Español</string>
+    <string name="settings_update_interval">Intervalo de actualización</string>
+    <string name="settings_wallpaper">Wallpaper</string>
+    <string name="success_applied">Wallpaper aplicado correctamente</string>
+    <string name="success_saved">Guardado como %s</string>
+    <string name="success_wallpaper_applied">Wallpaper aplicado correctamente</string>
+    <string name="title_about">Acerca de</string>
+    <string name="title_history">Historial</string>
+    <string name="title_settings">Ajustes</string>
+    <string name="view_gallery">Ver en galería</string>
+
+    <string name="settings_light_mode">Claro</string>    <string name="update_available_message">Hay una nueva versión disponible. ¿Quieres actualizar ahora?</string>
+</resources>
