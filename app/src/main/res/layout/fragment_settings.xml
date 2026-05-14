@@ -69,16 +69,17 @@
                         android:background="?android:attr/listDivider"
                         android:layout_marginVertical="12dp" />
 
+                    <!-- NUEVO: Selector de hora de actualización -->
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/settings_update_interval"
+                        android:text="@string/settings_update_time"
                         android:textSize="14sp"
                         android:textColor="?android:textColorSecondary"
                         android:layout_marginBottom="4dp" />
 
                     <LinearLayout
-                        android:id="@+id/layoutUpdateInterval"
+                        android:id="@+id/layoutUpdateTime"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
@@ -89,14 +90,14 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="@string/settings_frequency"
+                            android:text="@string/settings_time"
                             android:textSize="16sp" />
 
                         <TextView
-                            android:id="@+id/tvUpdateInterval"
+                            android:id="@+id/tvUpdateTime"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/settings_interval_24h"
+                            android:text="00:00"
                             android:textSize="16sp"
                             android:textColor="?android:textColorSecondary" />
 
@@ -112,6 +113,7 @@
 
             </com.google.android.material.card.MaterialCardView>
 
+            <!-- Resto del layout existente... -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -151,7 +153,7 @@
                             android:id="@+id/tvResolution"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/settings_resolution_hd"
+                            android:text="@string/settings_resolution_mobile"
                             android:textSize="16sp"
                             android:textColor="?android:textColorSecondary" />
 
@@ -187,6 +189,7 @@
 
             </com.google.android.material.card.MaterialCardView>
 
+            <!-- Card de Apariencia -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

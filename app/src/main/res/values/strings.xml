@@ -98,5 +98,10 @@
     <string name="title_settings">Ajustes</string>
     <string name="view_gallery">Ver en galería</string>
 
-    <string name="settings_light_mode">Claro</string>    <string name="update_available_message">Hay una nueva versión disponible. ¿Quieres actualizar ahora?</string>
+    <string name="settings_light_mode">Claro</string>    
+    <string name="update_available_message">Hay una nueva versión disponible. ¿Quieres actualizar ahora?</string>
+    
+    <!-- Add to res/values-en/strings.xml -->
+<string name="settings_update_time">Update time</string>
+<string name="settings_time">Time</string>
 </resources>

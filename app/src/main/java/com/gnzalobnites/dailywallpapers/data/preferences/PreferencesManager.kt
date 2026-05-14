@@ -19,12 +19,15 @@ class PreferencesManager(private val context: Context) {
         val LANGUAGE = stringPreferencesKey("language")
         val LAST_APPLIED_DATE = stringPreferencesKey("last_applied_date")
         val LAST_UPDATE_CHECK = stringPreferencesKey("last_update_check")
+        
+        // NUEVAS: Preferencias para la hora de actualización
+        val UPDATE_HOUR = intPreferencesKey("update_hour")
+        val UPDATE_MINUTE = intPreferencesKey("update_minute")
     }
     
     val autoUpdate: Flow<Boolean> = context.dataStore.data
         .map { preferences -> preferences[AUTO_UPDATE] ?: true }
     
-    // CAMBIADO: Valor por defecto cambiado de "hd" a "mobile" para usar versión retrato
     val wallpaperResolution: Flow<String> = context.dataStore.data
         .map { preferences -> preferences[WALLPAPER_RESOLUTION] ?: "mobile" }
     
@@ -45,6 +48,13 @@ class PreferencesManager(private val context: Context) {
     
     val lastUpdateCheck: Flow<String?> = context.dataStore.data
         .map { preferences -> preferences[LAST_UPDATE_CHECK] }
+    
+    // NUEVOS: Getters para la hora de actualización
+    val updateHour: Flow<Int> = context.dataStore.data
+        .map { preferences -> preferences[UPDATE_HOUR] ?: 0 }
+    
+    val updateMinute: Flow<Int> = context.dataStore.data
+        .map { preferences -> preferences[UPDATE_MINUTE] ?: 0 }
     
     suspend fun saveAutoUpdate(enabled: Boolean) {
         context.dataStore.edit { preferences ->
@@ -97,4 +107,12 @@ class PreferencesManager(private val context: Context) {
             preferences[LAST_UPDATE_CHECK] = date
         }
     }
-}
+    
+    // NUEVOS: Setters para la hora de actualización
+    suspend fun saveUpdateTime(hour: Int, minute: Int) {
+        context.dataStore.edit { preferences ->
+            preferences[UPDATE_HOUR] = hour
+            preferences[UPDATE_MINUTE] = minute
+        }
+    }
+} 

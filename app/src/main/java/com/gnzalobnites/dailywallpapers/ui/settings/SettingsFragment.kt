@@ -1,6 +1,6 @@
 package com.gnzalobnites.dailywallpapers.ui.settings
 
-import android.os.Bundle 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,9 +9,12 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.gnzalobnites.dailywallpapers.databinding.FragmentSettingsBinding
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.gnzalobnites.dailywallpapers.R
+import com.gnzalobnites.dailywallpapers.databinding.FragmentSettingsBinding
+import com.gnzalobnites.dailywallpapers.worker.WorkerScheduler
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.timepicker.MaterialTimePicker
+import com.google.android.material.timepicker.TimeFormat
 
 class SettingsFragment : Fragment() {
     
@@ -63,14 +66,22 @@ class SettingsFragment : Fragment() {
     private fun setupObservers() {
         viewModel.autoUpdate.observe(viewLifecycleOwner) { enabled ->
             binding.swAutoUpdate.isChecked = enabled
+            binding.layoutUpdateTime.isEnabled = enabled
+            binding.layoutUpdateTime.alpha = if (enabled) 1.0f else 0.5f
+        }
+        
+        viewModel.updateHour.observe(viewLifecycleOwner) { hour ->
+            viewModel.updateMinute.observe(viewLifecycleOwner) { minute ->
+                val timeText = String.format("%02d:%02d", hour, minute)
+                binding.tvUpdateTime.text = timeText
+            }
         }
         
         viewModel.wallpaperResolution.observe(viewLifecycleOwner) { resolution ->
-            // CAMBIADO: Mostrar "Móvil (Retrato)" como opción predeterminada en lugar de "HD"
             val text = when (resolution) {
                 "hd" -> getString(R.string.settings_resolution_hd)
                 "mobile" -> getString(R.string.settings_resolution_mobile)
-                else -> getString(R.string.settings_resolution_mobile)  // mobile como predeterminado
+                else -> getString(R.string.settings_resolution_mobile)
             }
             binding.tvResolution.text = text
         }
@@ -106,6 +117,18 @@ class SettingsFragment : Fragment() {
     private fun setupListeners() {
         binding.swAutoUpdate.setOnCheckedChangeListener { _, isChecked ->
             viewModel.saveAutoUpdate(isChecked)
+            if (isChecked) {
+                val hour = viewModel.updateHour.value ?: 0
+                val minute = viewModel.updateMinute.value ?: 0
+                WorkerScheduler.scheduleWallpaperWork(requireContext(), hour, minute)
+            } else {
+                WorkerScheduler.cancelScheduledWork(requireContext())
+            }
+        }
+        
+        // NUEVO: Click para seleccionar la hora de actualización
+        binding.layoutUpdateTime.setOnClickListener {
+            showTimePicker()
         }
         
         binding.layoutResolution.setOnClickListener {
@@ -129,13 +152,41 @@ class SettingsFragment : Fragment() {
         }
     }
     
+    // NUEVO: Selector de hora con MaterialTimePicker
+    private fun showTimePicker() {
+        val currentHour = viewModel.updateHour.value ?: 0
+        val currentMinute = viewModel.updateMinute.value ?: 0
+        
+        val picker = MaterialTimePicker.Builder()
+            .setTimeFormat(TimeFormat.CLOCK_24H)
+            .setHour(currentHour)
+            .setMinute(currentMinute)
+            .setTitleText("Hora de actualización")
+            .setPositiveButtonText("Aceptar")
+            .setNegativeButtonText("Cancelar")
+            .build()
+        
+        picker.addOnPositiveButtonClickListener {
+            val selectedHour = picker.hour
+            val selectedMinute = picker.minute
+            
+            viewModel.saveUpdateTime(selectedHour, selectedMinute)
+            
+            // Reprogramar el Worker si la actualización automática está activada
+            if (viewModel.autoUpdate.value == true) {
+                WorkerScheduler.scheduleWallpaperWork(requireContext(), selectedHour, selectedMinute)
+            }
+        }
+        
+        picker.show(parentFragmentManager, "TIME_PICKER")
+    }
+    
     private fun showResolutionDialog() {
         val resolutions = arrayOf(
             getString(R.string.settings_resolution_hd),
             getString(R.string.settings_resolution_mobile)
         )
         val values = arrayOf("hd", "mobile")
-        // CAMBIADO: Valor predeterminado "mobile" en lugar de "hd"
         val currentValue = viewModel.wallpaperResolution.value ?: "mobile"
         val selectedIndex = values.indexOf(currentValue)
         
@@ -189,4 +240,4 @@ class SettingsFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-}
+} 

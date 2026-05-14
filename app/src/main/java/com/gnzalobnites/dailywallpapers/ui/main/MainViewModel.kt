@@ -70,31 +70,14 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private fun loadImageBitmap(image: BingImage) {
         viewModelScope.launch {
             val resolutionPref = preferences.wallpaperResolution.first()
-            // CAMBIADO: Priorizar versión mobile (retrato). Si la preferencia es "mobile" o no está definida, usa getMobileUrl()
             val url = if (resolutionPref == "hd") image.getFullHdUrl() else image.getMobileUrl()
             repository.downloadBitmap(url).onSuccess { bitmap ->
                 _currentBitmap.postValue(bitmap)
-                checkAutoApply(bitmap, image)
+                // ELIMINADO: checkAutoApply(bitmap, image) - Ya no se aplica automáticamente al abrir la app
             }.onFailure { exception ->
                 _errorMessage.postValue(getString(R.string.error_download, exception.message ?: ""))
             }
             _isLoading.postValue(false)
-        }
-    }
-    
-    private suspend fun checkAutoApply(bitmap: Bitmap, image: BingImage) {
-        val autoApplyPref = preferences.autoApply.first()
-        val saveToHistoryPref = preferences.saveToHistory.first()
-        val lastAppliedDate = preferences.lastAppliedDate.first()
-        
-        if (autoApplyPref && lastAppliedDate != image.startDate) {
-            // Aplicar a ambas pantallas usando el método optimizado
-            applyWallpaperOptimized(bitmap, WallpaperManager.FLAG_SYSTEM or WallpaperManager.FLAG_LOCK)
-            preferences.saveLastAppliedDate(image.startDate)
-        }
-        
-        if (saveToHistoryPref) {
-            repository.saveToHistory(image)
         }
     }
     
@@ -103,10 +86,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             try {
                 _isLoading.postValue(true)
                 val resolutionPref = preferences.wallpaperResolution.first()
-                // CAMBIADO: Usar getMobileUrl() como predeterminado, getFullHdUrl() solo si se selecciona explícitamente "hd"
                 val imageUrl = when (resolutionPref) {
                     "hd" -> image.getFullHdUrl()
-                    else -> image.getMobileUrl()  // mobile es el predeterminado
+                    else -> image.getMobileUrl()
                 }
                 val futureTarget = Glide.with(getApplication<Application>())
                     .asBitmap()
@@ -133,7 +115,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
     
-    // Método optimizado que aplica el wallpaper con los flags especificados en una sola llamada
     private fun applyWallpaperOptimized(bitmap: Bitmap, flags: Int) {
         val wallpaperManager = WallpaperManager.getInstance(getApplication())
         wallpaperManager.setBitmap(bitmap, null, true, flags)
@@ -156,28 +137,19 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
     
-    /**
-     * 🔥 CORREGIDO: Ahora la operación de base de datos se ejecuta en Dispatchers.IO
-     * y se maneja correctamente la copia del objeto con appliedDate
-     */
     fun toggleFavorite() {
         val image = _currentImage.value ?: return
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                // Esta operación accede a Room (base de datos) - debe ir en hilo IO
                 repository.toggleFavorite(image)
-                
-                // Obtener la imagen actualizada de la base de datos para tener todos los campos correctos
                 val updatedImage = repository.getWallpaperByDate(image.startDate)
                 
                 if (updatedImage != null) {
-                    // Usar la imagen completa de la base de datos
                     _currentImage.postValue(updatedImage)
                 } else {
-                    // Si no existe en DB, crear copia manteniendo appliedDate original
                     val updated = image.copy(
                         isFavorite = !image.isFavorite,
-                        appliedDate = image.appliedDate // ¡Importante! Mantener el appliedDate original
+                        appliedDate = image.appliedDate
                     )
                     _currentImage.postValue(updated)
                 }
@@ -208,9 +180,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
                 val lastAppliedDate = preferences.lastAppliedDate.first()
                 
-                // Si hay una nueva imagen y es diferente a la aplicada, la descargamos silenciosamente
                 if (latestImage.startDate != lastAppliedDate) {
-                    // Descargar la nueva imagen en segundo plano sin notificar al usuario
                     downloadNewWallpaperSilently(latestImage)
                 }
 
@@ -226,7 +196,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val resolutionPref = preferences.wallpaperResolution.first()
-                // CAMBIADO: Usar getMobileUrl() como predeterminado para actualizaciones silenciosas
                 val url = if (resolutionPref == "hd") image.getFullHdUrl() else image.getMobileUrl()
                 
                 val futureTarget = Glide.with(getApplication<Application>())
@@ -235,14 +204,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                     .submit()
                 val bitmap = futureTarget.get()
                 
-                // Aplicar automáticamente si la preferencia está activada
-                val autoApplyPref = preferences.autoApply.first()
-                if (autoApplyPref) {
-                    applyWallpaperOptimized(bitmap, WallpaperManager.FLAG_SYSTEM or WallpaperManager.FLAG_LOCK)
-                    preferences.saveLastAppliedDate(image.startDate)
-                }
+                // ELIMINADO: Auto-aplicado aquí también - Solo se aplica en el Worker
                 
-                // Guardar en historial si está activado
                 val saveToHistoryPref = preferences.saveToHistory.first()
                 if (saveToHistoryPref) {
                     repository.saveToHistory(image)
@@ -260,4 +223,4 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private fun getString(id: Int, vararg args: Any): String {
         return getApplication<Application>().getString(id, *args)
     }
-} 
+}

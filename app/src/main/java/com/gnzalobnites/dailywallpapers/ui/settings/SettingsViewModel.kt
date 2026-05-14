@@ -14,7 +14,13 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
     private val _autoUpdate = MutableLiveData<Boolean>()
     val autoUpdate: LiveData<Boolean> = _autoUpdate
     
-    // CAMBIADO: Inicializar con "mobile" en lugar de "hd"
+    // NUEVOS: LiveData para la hora de actualización
+    private val _updateHour = MutableLiveData<Int>(0)
+    val updateHour: LiveData<Int> = _updateHour
+    
+    private val _updateMinute = MutableLiveData<Int>(0)
+    val updateMinute: LiveData<Int> = _updateMinute
+    
     private val _wallpaperResolution = MutableLiveData<String>("mobile")
     val wallpaperResolution: LiveData<String> = _wallpaperResolution
     
@@ -37,6 +43,8 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
     private fun loadPreferences() {
         viewModelScope.launch {
             launch { preferences.autoUpdate.collect { _autoUpdate.value = it } }
+            launch { preferences.updateHour.collect { _updateHour.value = it } }
+            launch { preferences.updateMinute.collect { _updateMinute.value = it } }
             launch { preferences.wallpaperResolution.collect { _wallpaperResolution.value = it } }
             launch { preferences.saveToHistory.collect { _saveToHistory.value = it } }
             launch { preferences.autoApply.collect { _autoApply.value = it } }
@@ -49,6 +57,15 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         viewModelScope.launch {
             preferences.saveAutoUpdate(enabled)
             _autoUpdate.value = enabled
+        }
+    }
+    
+    // NUEVO: Guardar hora de actualización
+    fun saveUpdateTime(hour: Int, minute: Int) {
+        viewModelScope.launch {
+            preferences.saveUpdateTime(hour, minute)
+            _updateHour.value = hour
+            _updateMinute.value = minute
         }
     }
 
@@ -86,4 +103,4 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
             _language.value = lang
         }
     }
-}
+} 

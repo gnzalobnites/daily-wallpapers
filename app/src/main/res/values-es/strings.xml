@@ -120,4 +120,8 @@
     
     <!-- File names -->
     <string name="file_name_format">Bing_%1$d.jpg</string>
+    
+    <!-- Agregar a res/values/strings.xml -->
+<string name="settings_update_time">Hora de actualización</string>
+<string name="settings_time">Hora</string>
 </resources>
