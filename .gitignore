@@ -89,3 +89,16 @@ move_backups.sh
 res-drawable.txt
 res-layouts.txt
 todo-kotlin.txt
+
+# Editor / IDE
+.cg/
+*.bak
+*.backup2
+
+# Firma de la App
+release.keystore
+release.properties
+
+# Gradle local
+.gradle/
+build/
