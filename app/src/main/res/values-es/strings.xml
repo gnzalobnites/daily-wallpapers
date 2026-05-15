@@ -124,4 +124,65 @@
     <!-- Agregar a res/values/strings.xml -->
 <string name="settings_update_time">Hora de actualización</string>
 <string name="settings_time">Hora</string>
+
+<!-- app/src/main/res/values/strings.xml -->
+<!-- Agrega estas líneas a tu archivo strings.xml existente -->
+
+<!-- Acerca de / About -->
+
+<string name="about_information">Información</string>
+
+<string name="developer_label">Desarrollador</string>
+<string name="developer_title">Desarrollador</string>
+<string name="developer_name">Gonzalo Benites</string>
+<string name="developer_info">%s\n@gnzalobnites\nbenitesgonzalogaston@gmail.com</string>
+
+<string name="libraries_label">Librerías utilizadas</string>
+<string name="libraries_title">Librerías utilizadas</string>
+
+<string name="privacy_label">Política de privacidad</string>
+<string name="privacy_title">Política de privacidad</string>
+<string name="privacy_text">Esta app no recopila ningún dato personal.\nTodas las imágenes se obtienen de la API pública de Bing.</string>
+
+<string name="open_source_label">Código abierto</string>
+<string name="open_source_title">Código abierto</string>
+<string name="open_source_text">Esta app es de código abierto.\nPuedes encontrar el código en GitHub:\ngithub.com/gnzalobnites/daily-wallpapers</string>
+
+<string name="version_format">Versión %s</string>
+<string name="version_unknown">Versión desconocida</string>
+<string name="copyright_text">© %d Gonzalo Benites. Todos los derechos reservados.</string>
+
+<string name="dialog_close">Cerrar</string>
+
+<!-- Menú principal -->
+
+<!-- app/src/main/res/values/strings.xml -->
+<!-- Agrega estas líneas -->
+
+<!-- About screen -->
+<string name="about_developed_by_label">DESARROLLADO POR</string>
+<string name="contact_email_button">Contactar por email</string>
+<string name="github_source_button">Código fuente (GitHub)</string>
+<string name="buy_coffee_button">Invitame un café 🥤</string>
+<string name="email_subject_support">Soporte - Daily Wallpapers</string>
+<string name="github_url">https://github.com/gnzalobnites/daily-wallpapers</string>
+<string name="buy_me_coffee_url">https://buymeacoffee.com/gnzbenitesh</string>
+<string name="developer_email">benitesgonzalogaston@gmail.com</string>
+
+<!-- Update checker -->
+<string name="update_check_button">Buscar actualizaciones</string>
+<string name="update_checking">Verificando...</string>
+<string name="update_no_update_available">No hay actualizaciones disponibles</string>
+<string name="update_check_error">Error al verificar actualizaciones</string>
+<string name="update_dialog_title">Actualización disponible</string>
+<string name="update_dialog_message">Hay una nueva versión (%s) disponible.\n¿Deseas descargarla?</string>
+<string name="update_dialog_download">Descargar</string>
+<string name="update_dialog_later">Más tarde</string>
+<string name="update_download_title">Descargando actualización</string>
+<string name="update_download_description">Descargando la nueva versión de Daily Wallpapers...</string>
+<string name="update_download_started">Descarga iniciada</string>
+<string name="update_file_not_found">No se encontró el archivo descargado</string>
+<string name="update_no_installer">No se encontró una aplicación para instalar el APK</string>
+<!-- app/src/main/res/values/strings.xml -->
+<string name="app_icon_description">Icono de la aplicación</string>
 </resources>

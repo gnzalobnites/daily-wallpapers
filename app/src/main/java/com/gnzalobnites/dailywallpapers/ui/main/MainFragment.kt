@@ -65,28 +65,28 @@ class MainFragment : Fragment() {
             windowInsets
         }
     }
-
-    private fun setupToolbar() {
-        binding.toolbar.apply {
-            setOnMenuItemClickListener { menuItem ->
-                when (menuItem.itemId) {
-                    R.id.action_history -> {
-                        findNavController().navigate(R.id.action_main_to_history)
-                        true
-                    }
-                    R.id.action_settings -> {
-                        findNavController().navigate(R.id.action_main_to_settings)
-                        true
-                    }
-                    R.id.action_about -> {
-                        findNavController().navigate(R.id.action_main_to_about)
-                        true
-                    }
-                    else -> false
+    
+private fun setupToolbar() {
+    binding.toolbar.apply {
+        setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.action_history -> {
+                    findNavController().navigate(R.id.action_main_to_history)
+                    true
                 }
+                R.id.action_settings -> {
+                    findNavController().navigate(R.id.action_main_to_settings)
+                    true
+                }
+                R.id.action_about -> {
+                    findNavController().navigate(R.id.action_main_to_about)
+                    true
+                }
+                else -> false
             }
         }
     }
+}
 
     private fun setupObservers() {
         viewModel.currentImage.observe(viewLifecycleOwner) { wallpaper ->

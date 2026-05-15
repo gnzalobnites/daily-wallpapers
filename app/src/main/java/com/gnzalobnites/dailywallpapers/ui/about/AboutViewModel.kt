@@ -23,11 +23,13 @@ class AboutViewModel(application: Application) : AndroidViewModel(application) {
             val packageInfo = getApplication<Application>().packageManager
                 .getPackageInfo(getApplication<Application>().packageName, 0)
             
-            _appVersion.value = "Versión ${packageInfo.versionName}"
+            _appVersion.value = getApplication<Application>()
+                .getString(com.gnzalobnites.dailywallpapers.R.string.version_format, packageInfo.versionName)
             _appName.value = getApplication<Application>()
                 .getString(com.gnzalobnites.dailywallpapers.R.string.app_name)
         } catch (e: PackageManager.NameNotFoundException) {
-            _appVersion.value = "Versión desconocida"
+            _appVersion.value = getApplication<Application>()
+                .getString(com.gnzalobnites.dailywallpapers.R.string.version_unknown)
         }
     }
 }

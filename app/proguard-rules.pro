@@ -19,3 +19,44 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+# Mantener las firmas genéricas (Crucial para Listas y Gson)
+-keepattributes Signature
+-keepattributes *Annotation*
+-keepattributes EnclosingMethod
+
+# Reglas de seguridad para Gson
+-keep class sun.misc.Unsafe { *; }
+-keep class com.google.gson.stream.** { *; }
+-keep class com.google.gson.** { *; }
+
+# Mantener intactos los modelos de datos de tu app
+-keep class com.gnzalobnites.dailywallpapers.data.model.** { *; }
+
+# Reglas para Retrofit y Corrutinas (por prevención)
+-keep class retrofit2.** { *; }
+-keepclassmembers,allowshrinking,allowobfuscation interface * {
+    @retrofit2.http.* <methods>;
+}
+
+# Retrofit + Kotlin suspend functions
+-keepattributes Signature, InnerClasses, EnclosingMethod
+
+# Mantener servicios Retrofit
+-keep interface com.gnzalobnites.dailywallpapers.data.api.** { *; }
+
+# Mantener metadata Kotlin
+-keep class kotlin.Metadata { *; }
+
+# Coroutines
+-dontwarn kotlinx.coroutines.**
+-keep class kotlinx.coroutines.** { *; }
+
+# Mantener respuestas Retrofit/Gson
+-keepclassmembers class * {
+    @com.google.gson.annotations.SerializedName <fields>;
+}
+
+# Evita que R8 rompa tipos genéricos
+-if interface * { @retrofit2.http.* <methods>; }
+-keep,allowobfuscation interface <1>

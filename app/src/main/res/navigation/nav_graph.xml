@@ -10,19 +10,19 @@
         android:name="com.gnzalobnites.dailywallpapers.ui.main.MainFragment"
         android:label="Daily Wallpapers"
         tools:layout="@layout/fragment_main">
-        
+
         <action
             android:id="@+id/action_main_to_history"
             app:destination="@id/historyFragment" />
-        
+
         <action
             android:id="@+id/action_main_to_settings"
             app:destination="@id/settingsFragment" />
-        
+
         <action
             android:id="@+id/action_main_to_about"
             app:destination="@id/aboutFragment" />
-        
+
     </fragment>
 
     <fragment
@@ -40,7 +40,7 @@
     <fragment
         android:id="@+id/aboutFragment"
         android:name="com.gnzalobnites.dailywallpapers.ui.about.AboutFragment"
-        android:label="Acerca de"
+        android:label="@string/title_about"
         tools:layout="@layout/fragment_about" />
 
 </navigation>
