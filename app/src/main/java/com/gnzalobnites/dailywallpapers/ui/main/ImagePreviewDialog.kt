@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.fragment.app.DialogFragment
 import coil.load
+import com.gnzalobnites.dailywallpapers.R
 import com.gnzalobnites.dailywallpapers.databinding.DialogImagePreviewBinding
 
 class ImagePreviewDialog(
@@ -65,4 +66,4 @@ class ImagePreviewDialog(
         super.onDestroyView()
         _binding = null
     }
-} 
+}

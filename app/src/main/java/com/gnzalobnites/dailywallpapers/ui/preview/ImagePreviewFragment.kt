@@ -133,15 +133,15 @@ class ImagePreviewFragment : BottomSheetDialogFragment() {
     }
     
     private fun showApplyOptions() {
-        val items = mutableListOf("Pantalla principal")
+        val items = mutableListOf(getString(R.string.wallpaper_home))
         
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            items.add("Pantalla de bloqueo")
-            items.add("Ambas")
+            items.add(getString(R.string.wallpaper_lock))
+            items.add(getString(R.string.wallpaper_both))
         }
         
         MaterialAlertDialogBuilder(requireContext())
-            .setTitle("Aplicar wallpaper")
+            .setTitle(getString(R.string.apply_wallpaper_title))
             .setItems(items.toTypedArray()) { _, which ->
                 when (which) {
                     0 -> applyWallpaper(false, false)
@@ -149,7 +149,7 @@ class ImagePreviewFragment : BottomSheetDialogFragment() {
                     2 -> applyWallpaper(true, true)
                 }
             }
-            .setNeutralButton("Cancelar", null)
+            .setNeutralButton(getString(R.string.cancel), null)
             .show()
     }
     
@@ -177,7 +177,7 @@ class ImagePreviewFragment : BottomSheetDialogFragment() {
                     
                     Toast.makeText(
                         requireContext(),
-                        "¡Wallpaper aplicado correctamente!",
+                        getString(R.string.success_applied),
                         Toast.LENGTH_SHORT
                     ).show()
                     
@@ -186,7 +186,7 @@ class ImagePreviewFragment : BottomSheetDialogFragment() {
                 } catch (e: Exception) {
                     Toast.makeText(
                         requireContext(),
-                        "Error al aplicar: ${e.message}",
+                        getString(R.string.error_applying, e.message ?: ""),
                         Toast.LENGTH_SHORT
                     ).show()
                 }
@@ -194,13 +194,12 @@ class ImagePreviewFragment : BottomSheetDialogFragment() {
         } ?: run {
             Toast.makeText(
                 requireContext(),
-                "No hay imagen disponible",
+                getString(R.string.no_image_available),
                 Toast.LENGTH_SHORT
             ).show()
         }
     }
     
-    // override fun getTheme(): Int = R.style.CustomBottomSheetDialogTheme
     override fun getTheme(): Int = R.style.FullScreenDialogTheme
     
     override fun onDestroyView() {

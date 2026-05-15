@@ -32,7 +32,7 @@ class MainFragment : Fragment() {
             saveToGallery()
         } else {
             Toast.makeText(requireContext(),
-                "Permiso necesario para guardar imágenes", Toast.LENGTH_SHORT).show()
+                getString(R.string.permission_denied), Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -66,27 +66,27 @@ class MainFragment : Fragment() {
         }
     }
     
-private fun setupToolbar() {
-    binding.toolbar.apply {
-        setOnMenuItemClickListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.action_history -> {
-                    findNavController().navigate(R.id.action_main_to_history)
-                    true
+    private fun setupToolbar() {
+        binding.toolbar.apply {
+            setOnMenuItemClickListener { menuItem ->
+                when (menuItem.itemId) {
+                    R.id.action_history -> {
+                        findNavController().navigate(R.id.action_main_to_history)
+                        true
+                    }
+                    R.id.action_settings -> {
+                        findNavController().navigate(R.id.action_main_to_settings)
+                        true
+                    }
+                    R.id.action_about -> {
+                        findNavController().navigate(R.id.action_main_to_about)
+                        true
+                    }
+                    else -> false
                 }
-                R.id.action_settings -> {
-                    findNavController().navigate(R.id.action_main_to_settings)
-                    true
-                }
-                R.id.action_about -> {
-                    findNavController().navigate(R.id.action_main_to_about)
-                    true
-                }
-                else -> false
             }
         }
     }
-}
 
     private fun setupObservers() {
         viewModel.currentImage.observe(viewLifecycleOwner) { wallpaper ->
@@ -96,9 +96,6 @@ private fun setupToolbar() {
                 val copyrightText = wallpaper.copyright
                 val dateText = wallpaper.getFormattedDate()
                 binding.tvCopyright.text = "$copyrightText · $dateText"
-                
-                // ELIMINADO: Ya no cargamos la URL horizontal aquí
-                // La carga de la imagen se maneja en el observer de currentBitmap
             }
         }
 
@@ -117,8 +114,8 @@ private fun setupToolbar() {
                 binding.btnApply.isEnabled = true
                 binding.btnSave.isEnabled = true
                 binding.btnFavorite.isEnabled = true
+                binding.btnApply.text = getString(R.string.apply)
                 
-                // NUEVO: Cargar el Bitmap optimizado (retrato) en lugar de la URL horizontal
                 Glide.with(this)
                     .load(it)
                     .centerCrop()
@@ -163,10 +160,14 @@ private fun setupToolbar() {
         binding.btnApply.setOnClickListener {
             val currentImage = viewModel.currentImage.value ?: return@setOnClickListener
             
-            val items = arrayOf("Pantalla principal", "Pantalla de bloqueo", "Ambas pantallas")
+            val items = arrayOf(
+                getString(R.string.wallpaper_home),
+                getString(R.string.wallpaper_lock),
+                getString(R.string.wallpaper_both)
+            )
             
             MaterialAlertDialogBuilder(requireContext())
-                .setTitle("¿Dónde deseas aplicar el fondo?")
+                .setTitle(getString(R.string.apply_wallpaper_title))
                 .setItems(items) { _, which ->
                     when (which) {
                         0 -> viewModel.applyWallpaper(currentImage, 1)
@@ -174,7 +175,7 @@ private fun setupToolbar() {
                         2 -> viewModel.applyWallpaper(currentImage, 3)
                     }
                 }
-                .setNeutralButton("Cancelar", null)
+                .setNeutralButton(getString(R.string.cancel), null)
                 .show()
         }
 
@@ -200,10 +201,14 @@ private fun setupToolbar() {
                 imageUrl = null,
                 title = "${image.title} · ${image.getFormattedDate()}"
             ) {
-                val items = arrayOf("Pantalla principal", "Pantalla de bloqueo", "Ambas pantallas")
+                val items = arrayOf(
+                    getString(R.string.wallpaper_home),
+                    getString(R.string.wallpaper_lock),
+                    getString(R.string.wallpaper_both)
+                )
                 
                 MaterialAlertDialogBuilder(requireContext())
-                    .setTitle("¿Dónde deseas aplicar el fondo?")
+                    .setTitle(getString(R.string.apply_wallpaper_title))
                     .setItems(items) { _, which ->
                         when (which) {
                             0 -> viewModel.applyWallpaper(image, 1)
@@ -211,7 +216,7 @@ private fun setupToolbar() {
                             2 -> viewModel.applyWallpaper(image, 3)
                         }
                     }
-                    .setNeutralButton("Cancelar", null)
+                    .setNeutralButton(getString(R.string.cancel), null)
                     .show()
             }
             dialog.show(childFragmentManager, "ImagePreview")
@@ -220,7 +225,7 @@ private fun setupToolbar() {
 
     private fun showErrorDialog(message: String) {
         MaterialAlertDialogBuilder(requireContext())
-            .setTitle("Error")
+            .setTitle(getString(R.string.error_loading, "").split(":")[0])
             .setMessage(message)
             .setPositiveButton("OK", null)
             .show()

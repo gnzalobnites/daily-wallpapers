@@ -4,12 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.os.LocaleListCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.gnzalobnites.dailywallpapers.R
+import com.gnzalobnites.dailywallpapers.WallpaperApp
 import com.gnzalobnites.dailywallpapers.databinding.FragmentSettingsBinding
 import com.gnzalobnites.dailywallpapers.worker.WorkerScheduler
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -126,7 +129,6 @@ class SettingsFragment : Fragment() {
             }
         }
         
-        // NUEVO: Click para seleccionar la hora de actualización
         binding.layoutUpdateTime.setOnClickListener {
             showTimePicker()
         }
@@ -152,7 +154,6 @@ class SettingsFragment : Fragment() {
         }
     }
     
-    // NUEVO: Selector de hora con MaterialTimePicker
     private fun showTimePicker() {
         val currentHour = viewModel.updateHour.value ?: 0
         val currentMinute = viewModel.updateMinute.value ?: 0
@@ -161,9 +162,9 @@ class SettingsFragment : Fragment() {
             .setTimeFormat(TimeFormat.CLOCK_24H)
             .setHour(currentHour)
             .setMinute(currentMinute)
-            .setTitleText("Hora de actualización")
-            .setPositiveButtonText("Aceptar")
-            .setNegativeButtonText("Cancelar")
+            .setTitleText(getString(R.string.settings_update_time))
+            .setPositiveButtonText(getString(R.string.apply))
+            .setNegativeButtonText(getString(R.string.cancel))
             .build()
         
         picker.addOnPositiveButtonClickListener {
@@ -172,7 +173,6 @@ class SettingsFragment : Fragment() {
             
             viewModel.saveUpdateTime(selectedHour, selectedMinute)
             
-            // Reprogramar el Worker si la actualización automática está activada
             if (viewModel.autoUpdate.value == true) {
                 WorkerScheduler.scheduleWallpaperWork(requireContext(), selectedHour, selectedMinute)
             }
@@ -230,7 +230,21 @@ class SettingsFragment : Fragment() {
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(getString(R.string.language_dialog_title))
             .setSingleChoiceItems(languages, selectedIndex) { dialog, which ->
-                viewModel.saveLanguage(values[which])
+                val selectedLang = values[which]
+                
+                // Guardar en preferencias
+                viewModel.saveLanguage(selectedLang)
+                
+                // Guardar también en SharedPreferences de la Application
+                WallpaperApp.prefs.edit().putString("language", selectedLang).apply()
+                
+                // Aplicar el idioma inmediatamente
+                val localeList = LocaleListCompat.forLanguageTags(selectedLang)
+                AppCompatDelegate.setApplicationLocales(localeList)
+                
+                // Recargar la actividad para ver los cambios inmediatamente
+                requireActivity().recreate()
+                
                 dialog.dismiss()
             }
             .show()
@@ -240,4 +254,4 @@ class SettingsFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-} 
+}

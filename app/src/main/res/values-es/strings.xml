@@ -1,188 +1,136 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Daily Wallpapers</string>
+    <string name="app_name">Wallpapers Diarios</string>
+    
+    <!-- Títulos -->
+    <string name="title_settings">Ajustes</string>
+    <string name="title_about">Acerca de</string>
+    <string name="title_history">Historial</string>
     <string name="title_home">Inicio</string>
     <string name="title_gallery">Galería</string>
     <string name="title_slideshow">Presentación</string>
-    <string name="title_history">Historial</string>
-    <string name="title_settings">Configuración</string>
-    <string name="title_about">Acerca de</string>
+    <string name="title_dashboard">Panel</string>
+    <string name="title_notifications">Notificaciones</string>
     
-    <!-- Navigation drawer -->
-    <string name="nav_header_desc">Opción de navegación</string>
-    <string name="nav_header_title">Daily Wallpapers</string>
-    <string name="nav_header_subtitle">benitesgonzalogaston@gmail.com</string>
-    
-    <!-- Main Fragment -->
-    <string name="app_title">Daily Wallpapers</string>
-    <string name="refresh_content_description">Refrescar</string>
-    <string name="apply_button">Aplicar</string>
-    <string name="apply_lock_button">Aplicar en pantalla de bloqueo</string>
-    <string name="favorite_content_description">Favorito</string>
-    <string name="save_content_description">Guardar</string>
-    <string name="copyright_separator"> · </string>
-    <string name="date_unavailable">Fecha no disponible</string>
-    
-    <!-- Apply dialog -->
-    <string name="apply_dialog_title">Aplicar wallpaper</string>
-    <string name="apply_dialog_message">¿Dónde quieres aplicar el wallpaper?</string>
-    <string name="home_screen">Pantalla principal</string>
-    <string name="lock_screen">Pantalla de bloqueo</string>
-    <string name="both_screens">Ambas</string>
-    <string name="cancel">Cancelar</string>
-    
-    <!-- Error messages -->
-    <string name="error_title">Error</string>
-    <string name="error_loading">Error: %1$s</string>
-    <string name="error_download">Error al descargar: %1$s</string>
-    <string name="error_applying">Error al aplicar fondo: %1$s</string>
-    <string name="error_saving">Error al guardar: %1$s</string>
-    <string name="error_no_image">No hay imagen disponible</string>
-    <string name="error_permission">Permiso necesario para guardar imágenes</string>
-    
-    <!-- Success messages -->
-    <string name="success_applied">Fondo aplicado con éxito</string>
-    <string name="success_saved">Guardado en: Pictures/DailyWallpapers/%1$s</string>
-    <string name="success_wallpaper_applied">¡Wallpaper aplicado correctamente!</string>
-    
-    <!-- Permission -->
-    <string name="permission_required">Permiso necesario para guardar imágenes</string>
-    
-    <!-- History Fragment -->
-    <string name="history_empty">No hay imágenes en el historial</string>
-    <string name="remove_favorite">Quitar de favoritos</string>
-    <string name="add_favorite">Añadir a favoritos</string>
-    <string name="view_gallery">Ver en galería</string>
-    <string name="open_gallery">Abrir galería: %1$s</string>
-    
-    <!-- Settings Fragment -->
-    <string name="settings_auto_update">Actualización automática</string>
-    <string name="settings_auto_update_summary">Activar actualización automática</string>
-    <string name="settings_update_interval">Intervalo de actualización</string>
-    <string name="settings_frequency">Frecuencia</string>
-    <string name="settings_interval_6h">Cada 6 horas</string>
-    <string name="settings_interval_12h">Cada 12 horas</string>
-    <string name="settings_interval_24h">Cada 24 horas</string>
-    
-    <string name="settings_wallpaper">Wallpaper</string>
-    <string name="settings_resolution">Resolución</string>
-    <string name="settings_resolution_hd">Alta definición (1920x1080)</string>
-    <string name="settings_resolution_mobile">Móvil (1080x1920)</string>
-    <string name="settings_save_history">Guardar en historial</string>
-    <string name="settings_auto_apply">Aplicar automáticamente</string>
-    
-    <string name="settings_appearance">Apariencia</string>
-    <string name="settings_dark_mode">Modo oscuro</string>
-    <string name="settings_light_mode">Claro</string>
-    <string name="settings_dark_mode_dark">Oscuro</string>
-    <string name="settings_dark_mode_system">Sistema</string>
-    <string name="settings_language">Idioma</string>
-    <string name="settings_spanish">Español</string>
-    <string name="settings_english">English</string>
-    
-    <!-- Interval dialog -->
-    <string name="interval_dialog_title">Intervalo de actualización</string>
-    <string name="resolution_dialog_title">Resolución del wallpaper</string>
-    <string name="dark_mode_dialog_title">Modo oscuro</string>
-    <string name="language_dialog_title">Idioma</string>
-    
-    <!-- About Fragment -->
-    <string name="about_developer">Desarrollador</string>
-    <string name="about_developer_info">Gonzalo Gastón Benites\n@gnzalobnites</string>
-    <string name="about_libraries">Librerías utilizadas</string>
-    <string name="about_privacy">Política de privacidad</string>
-    <string name="about_privacy_text">Esta app no recopila ningún dato personal. Todas las imágenes se obtienen de la API pública de Bing.</string>
-    <string name="about_open_source">Código abierto</string>
-    <string name="about_open_source_text">Esta app es de código abierto.\nPuedes encontrar el código en GitHub:\ngithub.com/gnzalobnites/dailywallpapers</string>
-    <string name="about_version">Versión %1$s</string>
-    <string name="about_version_unknown">Versión desconocida</string>
-    <string name="about_copyright">© 2026 Gonzalo Gastón Benites. Todos los derechos reservados.</string>
-    <string name="about_close">Cerrar</string>
-    
-    <!-- Image Preview Dialog -->
-    <string name="preview_apply_button">Establecer como fondo</string>
-    
-    <!-- Menu items (NUEVOS) -->
+    <!-- Menú de navegación -->
     <string name="menu_home">Inicio</string>
     <string name="menu_gallery">Galería</string>
     <string name="menu_slideshow">Presentación</string>
     <string name="menu_history">Historial</string>
-    <string name="menu_settings">Configuración</string>
+    <string name="menu_settings">Ajustes</string>
     <string name="menu_about">Acerca de</string>
     <string name="menu_all">Todos</string>
     <string name="menu_favorites">Favoritos</string>
-    <string name="action_settings">Configuración</string>
     
-    <!-- Placeholder texts -->
-    <string name="placeholder_gallery">This is gallery Fragment</string>
-    <string name="placeholder_home">This is home Fragment</string>
-    <string name="placeholder_slideshow">This is slideshow Fragment</string>
+    <!-- Action -->
+    <string name="action_settings">Ajustes</string>
     
-    <!-- File names -->
-    <string name="file_name_format">Bing_%1$d.jpg</string>
+    <!-- Sección de actualización automática -->
+    <string name="settings_auto_update">Actualización automática</string>
+    <string name="settings_auto_update_summary">Actualizar wallpaper automáticamente cada día</string>
+    <string name="settings_update_time">Hora de actualización</string>
+    <string name="settings_time">Hora</string>
     
-    <!-- Agregar a res/values/strings.xml -->
-<string name="settings_update_time">Hora de actualización</string>
-<string name="settings_time">Hora</string>
-
-<!-- app/src/main/res/values/strings.xml -->
-<!-- Agrega estas líneas a tu archivo strings.xml existente -->
-
-<!-- Acerca de / About -->
-
-<string name="about_information">Información</string>
-
-<string name="developer_label">Desarrollador</string>
-<string name="developer_title">Desarrollador</string>
-<string name="developer_name">Gonzalo Benites</string>
-<string name="developer_info">%s\n@gnzalobnites\nbenitesgonzalogaston@gmail.com</string>
-
-<string name="libraries_label">Librerías utilizadas</string>
-<string name="libraries_title">Librerías utilizadas</string>
-
-<string name="privacy_label">Política de privacidad</string>
-<string name="privacy_title">Política de privacidad</string>
-<string name="privacy_text">Esta app no recopila ningún dato personal.\nTodas las imágenes se obtienen de la API pública de Bing.</string>
-
-<string name="open_source_label">Código abierto</string>
-<string name="open_source_title">Código abierto</string>
-<string name="open_source_text">Esta app es de código abierto.\nPuedes encontrar el código en GitHub:\ngithub.com/gnzalobnites/daily-wallpapers</string>
-
-<string name="version_format">Versión %s</string>
-<string name="version_unknown">Versión desconocida</string>
-<string name="copyright_text">© %d Gonzalo Benites. Todos los derechos reservados.</string>
-
-<string name="dialog_close">Cerrar</string>
-
-<!-- Menú principal -->
-
-<!-- app/src/main/res/values/strings.xml -->
-<!-- Agrega estas líneas -->
-
-<!-- About screen -->
-<string name="about_developed_by_label">DESARROLLADO POR</string>
-<string name="contact_email_button">Contactar por email</string>
-<string name="github_source_button">Código fuente (GitHub)</string>
-<string name="buy_coffee_button">Invitame un café 🥤</string>
-<string name="email_subject_support">Soporte - Daily Wallpapers</string>
-<string name="github_url">https://github.com/gnzalobnites/daily-wallpapers</string>
-<string name="buy_me_coffee_url">https://buymeacoffee.com/gnzbenitesh</string>
-<string name="developer_email">benitesgonzalogaston@gmail.com</string>
-
-<!-- Update checker -->
-<string name="update_check_button">Buscar actualizaciones</string>
-<string name="update_checking">Verificando...</string>
-<string name="update_no_update_available">No hay actualizaciones disponibles</string>
-<string name="update_check_error">Error al verificar actualizaciones</string>
-<string name="update_dialog_title">Actualización disponible</string>
-<string name="update_dialog_message">Hay una nueva versión (%s) disponible.\n¿Deseas descargarla?</string>
-<string name="update_dialog_download">Descargar</string>
-<string name="update_dialog_later">Más tarde</string>
-<string name="update_download_title">Descargando actualización</string>
-<string name="update_download_description">Descargando la nueva versión de Daily Wallpapers...</string>
-<string name="update_download_started">Descarga iniciada</string>
-<string name="update_file_not_found">No se encontró el archivo descargado</string>
-<string name="update_no_installer">No se encontró una aplicación para instalar el APK</string>
-<!-- app/src/main/res/values/strings.xml -->
-<string name="app_icon_description">Icono de la aplicación</string>
+    <!-- Sección de wallpaper -->
+    <string name="settings_wallpaper">Fondo de pantalla</string>
+    <string name="settings_resolution">Resolución</string>
+    <string name="settings_resolution_hd">HD (1920x1080)</string>
+    <string name="settings_resolution_mobile">Móvil (1080x1920)</string>
+    <string name="settings_save_history">Guardar en historial</string>
+    <string name="settings_auto_apply">Aplicar wallpaper automáticamente</string>
+    
+    <!-- Sección de apariencia -->
+    <string name="settings_appearance">Apariencia</string>
+    <string name="settings_dark_mode">Modo oscuro</string>
+    <string name="settings_dark_mode_light">Claro</string>
+    <string name="settings_dark_mode_dark">Oscuro</string>
+    <string name="settings_dark_mode_system">Predeterminado del sistema</string>
+    <string name="settings_language">Idioma</string>
+    <string name="settings_spanish">Español</string>
+    <string name="settings_english">Inglés</string>
+    
+    <!-- Diálogos -->
+    <string name="resolution_dialog_title">Seleccionar resolución</string>
+    <string name="dark_mode_dialog_title">Seleccionar tema</string>
+    <string name="language_dialog_title">Seleccionar idioma</string>
+    
+    <!-- Diálogo de aplicar wallpaper -->
+    <string name="apply_wallpaper_title">¿Dónde deseas aplicar el fondo?</string>
+    <string name="wallpaper_home">Pantalla principal</string>
+    <string name="wallpaper_lock">Pantalla de bloqueo</string>
+    <string name="wallpaper_both">Ambas pantallas</string>
+    <string name="cancel">Cancelar</string>
+    
+    <!-- Botones -->
+    <string name="apply">Aplicar</string>
+    
+    <!-- Mensajes de error -->
+    <string name="error_loading">Error al cargar imagen: %s</string>
+    <string name="error_download">Error al descargar: %s</string>
+    <string name="error_applying">Error al aplicar wallpaper: %s</string>
+    <string name="error_saving">Error al guardar: %s</string>
+    <string name="no_image_available">No hay imagen disponible</string>
+    
+    <!-- Mensajes de éxito -->
+    <string name="success_applied">Wallpaper aplicado correctamente</string>
+    <string name="success_saved">Imagen guardada: %s</string>
+    
+    <!-- Permisos -->
+    <string name="permission_denied">Permiso necesario para guardar imágenes</string>
+    
+    <!-- Historial -->
+    <string name="history_empty">No hay imágenes en el historial</string>
+    <string name="add_to_favorites">Añadir a favoritos</string>
+    <string name="remove_from_favorites">Quitar de favoritos</string>
+    <string name="view_in_gallery">Ver en galería</string>
+    
+    <!-- Acerca de -->
+    <string name="about_developed_by_label">DESARROLLADO POR</string>
+    <string name="developer_name">Gonzalo Gastón Benites</string>
+    <string name="developer_email">gnzalobnites@gmail.com</string>
+    <string name="email_subject_support">Soporte Daily Wallpapers</string>
+    <string name="contact_email_button">Contactar por email</string>
+    <string name="github_source_button">Código fuente</string>
+    <string name="github_url">https://github.com/gnzalobnites/daily-wallpapers</string>
+    <string name="buy_coffee_button">Invítame un café</string>
+    <string name="buy_me_coffee_url">https://buymeacoffee.com/gnzalobnites</string>
+    <string name="version_format">Versión %s</string>
+    <string name="version_unknown">Versión desconocida</string>
+    <string name="app_icon_description">Icono de la app</string>
+    
+    <!-- Actualizaciones -->
+    <string name="update_check_button">Buscar actualizaciones</string>
+    <string name="update_checking">Buscando...</string>
+    <string name="update_no_update_available">No hay actualizaciones disponibles</string>
+    <string name="update_check_error">Error al buscar actualizaciones</string>
+    <string name="update_dialog_title">Actualización disponible</string>
+    <string name="update_dialog_message">La versión %s está disponible. ¿Deseas descargarla?</string>
+    <string name="update_dialog_download">Descargar</string>
+    <string name="update_dialog_later">Más tarde</string>
+    <string name="update_download_title">Descargando actualización</string>
+    <string name="update_download_description">Descargando actualización de Daily Wallpapers...</string>
+    <string name="update_download_started">Descarga iniciada</string>
+    <string name="update_file_not_found">Archivo de actualización no encontrado</string>
+    <string name="update_no_installer">No hay aplicación para instalar la actualización</string>
+    
+    <!-- Notificaciones -->
+    <string name="notification_channel_name">Actualizaciones de wallpaper</string>
+    <string name="notification_channel_description">Notificaciones de actualizaciones de wallpaper</string>
+    <string name="notification_error_title">Wallpapers Diarios</string>
+    <string name="notification_error_connection">No se pudo conectar con el servidor para obtener el wallpaper diario.</string>
+    <string name="notification_error_data">Error al procesar los datos de la imagen de Bing.</string>
+    <string name="notification_error_download">Falló la descarga de la imagen al intentar aplicar el wallpaper.</string>
+    <string name="notification_error_critical">Ocurrió un error crítico: %s</string>
+    
+    <!-- Formato de archivo -->
+    <string name="file_name_format">DailyWallpaper_%d.jpg</string>
+    
+    <!-- Navegación -->
+    <string name="nav_header_title">Wallpapers Diarios</string>
+    <string name="nav_header_subtitle">Wallpapers diarios de Bing</string>
+    <string name="nav_header_desc">Cabecera de navegación</string>
+    
+    <!-- Otros -->
+    <string name="logout">Cerrar sesión</string>
+    <string name="share">Compartir</string>
 </resources>

@@ -53,10 +53,8 @@ class HistoryFragment : Fragment() {
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, windowInsets ->
             val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
             
-            // Ajustar padding del AppBarLayout
             binding.appBarLayout.updatePadding(top = insets.top)
             
-            // Ajustar padding del RecyclerView para las barras laterales e inferior
             binding.recyclerView.updatePadding(
                 left = insets.left,
                 right = insets.right,
@@ -121,10 +119,14 @@ class HistoryFragment : Fragment() {
     }
     
     private fun showApplyOptions(image: BingImage) {
-        val items = arrayOf("Pantalla principal", "Pantalla de bloqueo", "Ambas pantallas")
+        val items = arrayOf(
+            getString(R.string.wallpaper_home),
+            getString(R.string.wallpaper_lock),
+            getString(R.string.wallpaper_both)
+        )
         
         MaterialAlertDialogBuilder(requireContext())
-            .setTitle("¿Dónde deseas aplicar el fondo?")
+            .setTitle(getString(R.string.apply_wallpaper_title))
             .setItems(items) { _, which ->
                 when (which) {
                     0 -> sharedViewModel.applyWallpaper(image, 1)
@@ -132,7 +134,7 @@ class HistoryFragment : Fragment() {
                     2 -> sharedViewModel.applyWallpaper(image, 3)
                 }
             }
-            .setNeutralButton("Cancelar", null)
+            .setNeutralButton(getString(R.string.cancel), null)
             .show()
     }
     
@@ -140,6 +142,7 @@ class HistoryFragment : Fragment() {
         viewModel.wallpapers.observe(viewLifecycleOwner) { wallpapers ->
             adapter.submitList(wallpapers)
             binding.tvEmpty.visibility = if (wallpapers.isEmpty()) View.VISIBLE else View.GONE
+            binding.tvEmpty.text = getString(R.string.history_empty)
         }
         
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
@@ -156,7 +159,7 @@ class HistoryFragment : Fragment() {
         sharedViewModel.errorMessage.observe(viewLifecycleOwner) { error ->
             error?.let {
                 MaterialAlertDialogBuilder(requireContext())
-                    .setTitle("Error")
+                    .setTitle(getString(R.string.error_loading, "").split(":")[0])
                     .setMessage(it)
                     .setPositiveButton("OK", null)
                     .show()
@@ -178,11 +181,12 @@ class HistoryFragment : Fragment() {
     
     private fun showImageOptions(image: BingImage) {
         val items = mutableListOf(
-            if (image.isFavorite) "Quitar de favoritos" else "Añadir a favoritos"
+            if (image.isFavorite) getString(R.string.remove_from_favorites) 
+            else getString(R.string.add_to_favorites)
         )
         
         if (image.localPath != null) {
-            items.add("Ver en galería")
+            items.add(getString(R.string.view_in_gallery))
         }
         
         MaterialAlertDialogBuilder(requireContext())
@@ -198,7 +202,7 @@ class HistoryFragment : Fragment() {
     
     private fun openGallery(image: BingImage) {
         image.localPath?.let { path ->
-            Toast.makeText(requireContext(), "Abrir galería: $path", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "${getString(R.string.view_in_gallery)}: $path", Toast.LENGTH_SHORT).show()
         }
     }
     
