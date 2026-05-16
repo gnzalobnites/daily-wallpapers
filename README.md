@@ -139,10 +139,10 @@ Favoritos
 📸 Capturas de Pantalla
 
 <p align="center">
-  <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/4.jpg" width="180" alt="Main Screen"/>
-  <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/5.jpg" width="180" alt="History"/>
-  <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/6.jpg" width="180" alt="Settings"/>
-  <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/7.jpg" width="180" alt="Preview"/>
+  <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/1.jpg" width="180" alt="Main Screen"/>
+  <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/2.jpg" width="180" alt="History"/>
+  <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/4.jpg" width="180" alt="Settings"/>
+  <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/3.jpg" width="180" alt="Preview"/>
 </p>
 
 🧪 Testing
@@ -184,8 +184,8 @@ Este proyecto está bajo la licencia MIT. Ver el archivo LICENSE para más detal
 
 📧 Contacto
 
-Desarrollador: Gonzalo Benites
-Email: gonzalobnites@gmail.com
+Desarrollador: Gonzalo Gastón Benites
+Email: gnzbnites@gmail.com
 GitHub: @gnzalobnites
 
 🙏 Agradecimientos
@@ -197,5 +197,5 @@ GitHub: @gnzalobnites
 ---
 
 <p align="center">
-  Hecho con ❤️ para los amantes de los wallpapers diarios
+  Hecho con ❤️ para quienes aman de los wallpapers diarios
 </p>
