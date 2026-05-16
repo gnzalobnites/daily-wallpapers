@@ -28,6 +28,7 @@ android {
     signingConfigs {
         release {
            if (keystorePropertiesFile.exists()) {
+               // Usar ruta relativa en release.properties para mantener reproducibilidad
                storeFile = file(keystoreProperties['storeFile'])
                storePassword = keystoreProperties['storePassword']
                keyAlias = keystoreProperties['keyAlias']
@@ -38,7 +39,7 @@ android {
 
     buildTypes {
         release {
-            signingConfig signingConfigs.release // Vincula la firma al build de producción
+            signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
@@ -63,9 +64,19 @@ kapt {
     correctErrorTypes = true
 }
 
+// ==================== CONFIGURACIÓN PARA CONSTRUCCIÓN REPRODUCIBLE ====================
+// Forzar reproducibilidad en todas las tareas que generan archivos (ZIP, JAR, APK, AAB)
+tasks.withType(AbstractArchiveTask).configureEach {
+    // Elimina las marcas de tiempo exactas de la compilación
+    preserveFileTimestamps = false
+    // Fuerza un orden alfabético al empaquetar los archivos
+    reproducibleFileOrder = true
+}
+// ======================================================================================
+
 dependencies {
     // Core y UI Base
-    implementation 'androidx.core:core-ktx:1.12.0' // Eliminada duplicidad
+    implementation 'androidx.core:core-ktx:1.12.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.11.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
@@ -99,7 +110,7 @@ dependencies {
     
     // Segundo Plano y Corrutinas
     implementation 'androidx.work:work-runtime-ktx:2.9.0'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3' // Eliminada duplicidad
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3'
     
     // Google Play Services (Updates)
