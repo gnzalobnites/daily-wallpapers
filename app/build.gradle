@@ -28,7 +28,6 @@ android {
     signingConfigs {
         release {
            if (keystorePropertiesFile.exists()) {
-               // Usar ruta relativa en release.properties para mantener reproducibilidad
                storeFile = file(keystoreProperties['storeFile'])
                storePassword = keystoreProperties['storePassword']
                keyAlias = keystoreProperties['keyAlias']
@@ -65,11 +64,8 @@ kapt {
 }
 
 // ==================== CONFIGURACIÓN PARA CONSTRUCCIÓN REPRODUCIBLE ====================
-// Forzar reproducibilidad en todas las tareas que generan archivos (ZIP, JAR, APK, AAB)
 tasks.withType(AbstractArchiveTask).configureEach {
-    // Elimina las marcas de tiempo exactas de la compilación
     preserveFileTimestamps = false
-    // Fuerza un orden alfabético al empaquetar los archivos
     reproducibleFileOrder = true
 }
 // ======================================================================================
@@ -111,11 +107,6 @@ dependencies {
     // Segundo Plano y Corrutinas
     implementation 'androidx.work:work-runtime-ktx:2.9.0'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3'
-    
-    // Google Play Services (Updates)
-    implementation 'com.google.android.play:app-update:2.1.0'
-    implementation 'com.google.android.play:app-update-ktx:2.1.0'
     
     // Preferencias
     implementation 'androidx.preference:preference-ktx:1.2.1'
