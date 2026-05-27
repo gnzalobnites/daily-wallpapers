@@ -2,7 +2,39 @@
 <resources>
     <string name="app_name">Daily Wallpapers</string>
     
-    <!-- Títulos -->
+    <!-- Strings for HistoryFragment - Internal Storage -->
+<string name="save_internal_storage">Save to internal storage</string>
+<string name="view_internal_path">View internal file path</string>
+<string name="saved_internal_success">Successfully saved to internal storage</string>
+<string name="error_saving_internal">Error saving to internal storage</string>
+<string name="error_downloading_image">Error downloading image</string>
+<string name="file_saved_at">File saved at:</string>
+    
+    <!-- Notification permission -->
+<string name="notification_permission_title">Enable Notifications</string>
+<string name="notification_permission_message">To make sure you know when your wallpaper has been successfully updated or if there was any issue, we need your permission to show notifications.</string>
+<string name="notification_permission_continue">Continue</string>
+<string name="notification_permission_later">Not now</string>
+<string name="notification_permission_granted">Notification permission granted</string>
+<string name="notification_permission_denied">Notification permission denied. You will not receive alerts.</string>
+
+<!-- Automatic activation -->
+<string name="auto_update_activated_message">Auto-update enabled when schedule was set</string>
+    
+    <!-- Onboarding -->
+    <string name="onboarding_title">Initial Setup</string>
+    <string name="onboarding_message">To run background tasks at the exact time you set, you need to enable the Alarms &amp; Reminders permission.\n\nThis permission allows the wallpaper to update automatically at the scheduled time, even when the app is closed.</string>
+    <string name="onboarding_benefits_title">Benefits of granting permission:</string>
+    <string name="onboarding_benefit_auto_update">✓ Daily automatic update</string>
+<string name="onboarding_benefit_auto_apply">✓ Automatic wallpaper application</string>
+<string name="onboarding_benefit_precise_schedule">✓ Precise scheduling at your chosen time</string>
+    <string name="onboarding_button_grant">Grant Permission</string>
+    <string name="onboarding_skip">Skip for now</string>
+    <string name="onboarding_toast_skip">You can grant the permission later from Settings</string>
+    <string name="onboarding_toast_granted">Permission granted! Automatic updates will work correctly.</string>
+    <string name="onboarding_toast_denied">Permission not granted. Automatic updates may be delayed.</string>
+    
+    <!-- T�tulos -->
     <string name="title_settings">Settings</string>
     <string name="title_about">About</string>
     <string name="title_history">History</string>
@@ -12,7 +44,7 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     
-    <!-- Menú de navegación -->
+    <!-- Men� de navegaci�n -->
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
@@ -25,13 +57,12 @@
     <!-- Action -->
     <string name="action_settings">Settings</string>
     
-    <!-- Sección de actualización automática -->
+    <!-- Secci�n de actualizaci�n autom�tica -->
     <string name="settings_auto_update">Auto update</string>
     <string name="settings_auto_update_summary">Automatically update wallpaper daily</string>
     <string name="settings_update_time">Update time</string>
-    <string name="settings_time">Time</string>
     
-    <!-- Sección de wallpaper -->
+    <!-- Secci�n de wallpaper -->
     <string name="settings_wallpaper">Wallpaper</string>
     <string name="settings_resolution">Resolution</string>
     <string name="settings_resolution_hd">HD (1920x1080)</string>
@@ -39,7 +70,7 @@
     <string name="settings_save_history">Save to history</string>
     <string name="settings_auto_apply">Auto apply wallpaper</string>
     
-    <!-- Sección de apariencia -->
+    <!-- Secci�n de apariencia -->
     <string name="settings_appearance">Appearance</string>
     <string name="settings_dark_mode">Dark mode</string>
     <string name="settings_dark_mode_light">Light</string>
@@ -49,12 +80,12 @@
     <string name="settings_spanish">Spanish</string>
     <string name="settings_english">English</string>
     
-    <!-- Diálogos -->
+    <!-- Di�logos -->
     <string name="resolution_dialog_title">Select resolution</string>
     <string name="dark_mode_dialog_title">Select theme</string>
     <string name="language_dialog_title">Select language</string>
     
-    <!-- Diálogo de aplicar wallpaper -->
+    <!-- Di�logo de aplicar wallpaper -->
     <string name="apply_wallpaper_title">Where do you want to apply the wallpaper?</string>
     <string name="wallpaper_home">Home screen</string>
     <string name="wallpaper_lock">Lock screen</string>
@@ -71,7 +102,7 @@
     <string name="error_saving">Error saving: %s</string>
     <string name="no_image_available">No image available</string>
     
-    <!-- Mensajes de éxito -->
+    <!-- Mensajes de �xito -->
     <string name="success_applied">Wallpaper applied successfully</string>
     <string name="success_saved">Image saved: %s</string>
     
@@ -86,7 +117,7 @@
     
     <!-- Acerca de -->
     <string name="about_developed_by_label">DEVELOPED BY</string>
-    <string name="developer_name">Gonzalo Gastón Benites</string>
+    <string name="developer_name">Gonzalo Gast�n Benites</string>
     <string name="developer_email">gnzalobnites@gmail.com</string>
     <string name="email_subject_support">Daily Wallpapers Support</string>
     <string name="contact_email_button">Contact by email</string>
@@ -125,7 +156,7 @@
     <!-- Formato de archivo -->
     <string name="file_name_format">DailyWallpaper_%d.jpg</string>
     
-    <!-- Navegación -->
+    <!-- Navegaci�n -->
     <string name="nav_header_title">Daily Wallpapers</string>
     <string name="nav_header_subtitle">Bing daily wallpapers</string>
     <string name="nav_header_desc">Navigation header</string>
@@ -133,4 +164,9 @@
     <!-- Otros -->
     <string name="logout">Logout</string>
     <string name="share">Share</string>
-</resources>
+    
+    <!-- Alarm & Update strings -->
+    <string name="need_exact_alarm_permission">For automatic updates, you need to allow exact alarms. Please grant the permission on the next screen.</string>
+    <string name="alarm_scheduled">Update scheduled for %s</string>
+    <string name="settings_time">Time</string>
+</resources> 

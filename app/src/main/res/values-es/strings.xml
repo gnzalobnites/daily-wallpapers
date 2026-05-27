@@ -2,7 +2,39 @@
 <resources>
     <string name="app_name">Wallpapers Diarios</string>
     
-    <!-- Títulos -->
+    <!-- Strings para HistoryFragment - Almacenamiento interno -->
+<string name="save_internal_storage">Guardar en almacenamiento interno</string>
+<string name="view_internal_path">Ver ruta del archivo interno</string>
+<string name="saved_internal_success">Guardado en almacenamiento interno exitosamente</string>
+<string name="error_saving_internal">Error al escribir en almacenamiento interno</string>
+<string name="error_downloading_image">Error al descargar la imagen</string>
+<string name="file_saved_at">Archivo guardado en:</string>
+    
+    <!-- Permiso de notificaciones -->
+<string name="notification_permission_title">Habilitar Notificaciones</string>
+<string name="notification_permission_message">Para asegurarnos de que sabes cuándo se actualizó correctamente tu fondo de pantalla o si hubo algún inconveniente, necesitamos tu permiso para mostrar notificaciones.</string>
+<string name="notification_permission_continue">Continuar</string>
+<string name="notification_permission_later">Ahora no</string>
+<string name="notification_permission_granted">Permiso de notificaciones concedido</string>
+<string name="notification_permission_denied">Permiso de notificaciones denegado. No recibirás alertas.</string>
+
+<!-- Activación automática -->
+<string name="auto_update_activated_message">Actualización automática activada al seleccionar horario</string>
+    
+    <!-- Onboarding -->
+    <string name="onboarding_title">Configuración Inicial</string>
+    <string name="onboarding_message">Para que las tareas en segundo plano se ejecuten en el tiempo exacto que configures, es necesario habilitar el permiso de Alarmas y Recordatorios.\n\nEste permiso permite que el wallpaper se actualice automáticamente a la hora programada, incluso si la app está cerrada.</string>
+    <string name="onboarding_benefits_title">Beneficios de conceder el permiso:</string>
+    <string name="onboarding_benefit_auto_update">✓ Actualización automática diaria</string>
+<string name="onboarding_benefit_auto_apply">✓ Aplicación automática del wallpaper</string>
+<string name="onboarding_benefit_precise_schedule">✓ Programación precisa a la hora que elijas</string>
+    <string name="onboarding_button_grant">Conceder Permiso</string>
+    <string name="onboarding_skip">Omitir por ahora</string>
+    <string name="onboarding_toast_skip">Puedes conceder el permiso más tarde desde Configuración</string>
+    <string name="onboarding_toast_granted">¡Permiso concedido! Las actualizaciones automáticas funcionarán correctamente.</string>
+    <string name="onboarding_toast_denied">El permiso no fue concedido. Las actualizaciones automáticas podrían tener retrasos.</string>
+    
+    <!-- Resto de tu archivo... -->
     <string name="title_settings">Ajustes</string>
     <string name="title_about">Acerca de</string>
     <string name="title_history">Historial</string>
@@ -29,7 +61,6 @@
     <string name="settings_auto_update">Actualización automática</string>
     <string name="settings_auto_update_summary">Actualizar wallpaper automáticamente cada día</string>
     <string name="settings_update_time">Hora de actualización</string>
-    <string name="settings_time">Hora</string>
     
     <!-- Sección de wallpaper -->
     <string name="settings_wallpaper">Fondo de pantalla</string>
@@ -133,4 +164,9 @@
     <!-- Otros -->
     <string name="logout">Cerrar sesión</string>
     <string name="share">Compartir</string>
+    
+    <!-- Alarm & Update strings -->
+    <string name="need_exact_alarm_permission">Para la actualización automática, necesitas permitir alarmas exactas. Por favor, concede el permiso en la siguiente pantalla.</string>
+    <string name="alarm_scheduled">Actualización programada para las %s</string>
+    <string name="settings_time">Hora</string>
 </resources>

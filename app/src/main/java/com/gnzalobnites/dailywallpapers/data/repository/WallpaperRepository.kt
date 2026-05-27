@@ -91,6 +91,33 @@ class WallpaperRepository(private val context: Context) {
     }
     
     /**
+     * Guarda la imagen en el almacenamiento interno (privado de la aplicación)
+     * No requiere permisos adicionales y los archivos son exclusivos de la app
+     */
+    suspend fun saveToInternalStorage(bitmap: Bitmap, fileName: String): Result<String> {
+        return withContext(Dispatchers.IO) {
+            try {
+                // Usamos una carpeta específica "wallpapers" dentro del almacenamiento interno
+                val directory = File(context.filesDir, "wallpapers")
+                if (!directory.exists()) {
+                    directory.mkdirs()
+                }
+                
+                val file = File(directory, fileName)
+                FileOutputStream(file).use { outputStream ->
+                    // Comprimimos al 100% de calidad en formato JPEG
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+                }
+                
+                // Retornamos la ruta absoluta del archivo para guardarla en la BD
+                Result.success(file.absolutePath)
+            } catch (e: Exception) {
+                Result.failure(e)
+            }
+        }
+    }
+    
+    /**
      * Guarda la imagen en el almacenamiento compartido (Pictures/DailyWallpapers)
      * para que persista incluso después de desinstalar la app.
      */
@@ -269,4 +296,4 @@ class WallpaperRepository(private val context: Context) {
     
     private fun getString(id: Int): String = context.getString(id)
     private fun getString(id: Int, vararg args: Any): String = context.getString(id, *args)
-}
+} 

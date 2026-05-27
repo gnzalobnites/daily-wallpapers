@@ -1,29 +1,54 @@
 package com.gnzalobnites.dailywallpapers.ui.settings
 
+import android.Manifest
+import android.app.TimePickerDialog
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.ContextCompat
 import androidx.core.os.LocaleListCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import com.gnzalobnites.dailywallpapers.AlarmScheduler
 import com.gnzalobnites.dailywallpapers.R
 import com.gnzalobnites.dailywallpapers.WallpaperApp
 import com.gnzalobnites.dailywallpapers.databinding.FragmentSettingsBinding
-import com.gnzalobnites.dailywallpapers.worker.WorkerScheduler
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
+import kotlinx.coroutines.launch
+import java.util.Calendar
 
 class SettingsFragment : Fragment() {
     
     private var _binding: FragmentSettingsBinding? = null
     private val binding get() = _binding!!
     private val viewModel: SettingsViewModel by viewModels()
+    
+    // Registrar el lanzador del permiso de notificaciones
+    private val requestNotificationPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted: Boolean ->
+        if (isGranted) {
+            Toast.makeText(requireContext(), 
+                getString(R.string.notification_permission_granted), 
+                Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(requireContext(), 
+                getString(R.string.notification_permission_denied), 
+                Toast.LENGTH_SHORT).show()
+        }
+    }
     
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -68,7 +93,10 @@ class SettingsFragment : Fragment() {
     
     private fun setupObservers() {
         viewModel.autoUpdate.observe(viewLifecycleOwner) { enabled ->
-            binding.swAutoUpdate.isChecked = enabled
+            // Solo actualizar si el valor es diferente para evitar bucles
+            if (binding.swAutoUpdate.isChecked != enabled) {
+                binding.swAutoUpdate.isChecked = enabled
+            }
             binding.layoutUpdateTime.isEnabled = enabled
             binding.layoutUpdateTime.alpha = if (enabled) 1.0f else 0.5f
         }
@@ -90,11 +118,16 @@ class SettingsFragment : Fragment() {
         }
         
         viewModel.saveToHistory.observe(viewLifecycleOwner) { enabled ->
-            binding.swSaveHistory.isChecked = enabled
+            if (binding.swSaveHistory.isChecked != enabled) {
+                binding.swSaveHistory.isChecked = enabled
+            }
         }
         
         viewModel.autoApply.observe(viewLifecycleOwner) { enabled ->
-            binding.swAutoApply.isChecked = enabled
+            // Solo actualizar si el valor es diferente para evitar bucles
+            if (binding.swAutoApply.isChecked != enabled) {
+                binding.swAutoApply.isChecked = enabled
+            }
         }
         
         viewModel.darkMode.observe(viewLifecycleOwner) { mode ->
@@ -118,31 +151,42 @@ class SettingsFragment : Fragment() {
     }
     
     private fun setupListeners() {
-        binding.swAutoUpdate.setOnCheckedChangeListener { _, isChecked ->
+        // Usamos setOnClickListener en lugar de setOnCheckedChangeListener para evitar el bucle
+        binding.swAutoUpdate.setOnClickListener {
+            val isChecked = binding.swAutoUpdate.isChecked
             viewModel.saveAutoUpdate(isChecked)
+            
             if (isChecked) {
                 val hour = viewModel.updateHour.value ?: 0
                 val minute = viewModel.updateMinute.value ?: 0
-                WorkerScheduler.scheduleWallpaperWork(requireContext(), hour, minute)
+                val success = AlarmScheduler.scheduleExactAlarm(requireContext(), hour, minute)
+                if (!success && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                    Toast.makeText(requireContext(), 
+                        getString(R.string.need_exact_alarm_permission), 
+                        Toast.LENGTH_LONG).show()
+                    AlarmScheduler.requestExactAlarmPermission(requireContext())
+                }
+                checkAndRequestNotificationPermission()
             } else {
-                WorkerScheduler.cancelScheduledWork(requireContext())
+                AlarmScheduler.cancelAlarm(requireContext())
             }
         }
         
+        binding.swSaveHistory.setOnClickListener {
+            viewModel.saveSaveToHistory(binding.swSaveHistory.isChecked)
+        }
+        
+        binding.swAutoApply.setOnClickListener {
+            viewModel.saveAutoApply(binding.swAutoApply.isChecked)
+        }
+        
+        // Listener para seleccionar hora
         binding.layoutUpdateTime.setOnClickListener {
             showTimePicker()
         }
         
         binding.layoutResolution.setOnClickListener {
             showResolutionDialog()
-        }
-        
-        binding.swSaveHistory.setOnCheckedChangeListener { _, isChecked ->
-            viewModel.saveSaveToHistory(isChecked)
-        }
-        
-        binding.swAutoApply.setOnCheckedChangeListener { _, isChecked ->
-            viewModel.saveAutoApply(isChecked)
         }
         
         binding.layoutDarkMode.setOnClickListener {
@@ -154,6 +198,10 @@ class SettingsFragment : Fragment() {
         }
     }
     
+    /**
+     * TimePicker con activación automática completa
+     * Este es el método corregido que evita el bucle infinito
+     */
     private fun showTimePicker() {
         val currentHour = viewModel.updateHour.value ?: 0
         val currentMinute = viewModel.updateMinute.value ?: 0
@@ -171,14 +219,108 @@ class SettingsFragment : Fragment() {
             val selectedHour = picker.hour
             val selectedMinute = picker.minute
             
-            viewModel.saveUpdateTime(selectedHour, selectedMinute)
-            
-            if (viewModel.autoUpdate.value == true) {
-                WorkerScheduler.scheduleWallpaperWork(requireContext(), selectedHour, selectedMinute)
+            viewLifecycleOwner.lifecycleScope.launch {
+                // 1. Guardar en el ViewModel (Los Observers actualizarán los switches solos)
+                viewModel.saveUpdateTime(selectedHour, selectedMinute)
+                viewModel.saveAutoUpdate(true)
+                viewModel.saveAutoApply(true)
+                
+                // 2. Solo actualizamos el texto de la hora
+                binding.tvUpdateTime.text = String.format("%02d:%02d", selectedHour, selectedMinute)
+                
+                // 3. Programar alarma inmediatamente
+                val success = AlarmScheduler.scheduleExactAlarm(requireContext(), selectedHour, selectedMinute)
+                
+                // 4. Manejar caso de permiso denegado en Android 12+
+                if (!success && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                    AlarmScheduler.requestExactAlarmPermission(requireContext())
+                    Toast.makeText(requireContext(), 
+                        getString(R.string.need_exact_alarm_permission), 
+                        Toast.LENGTH_LONG).show()
+                } else if (success) {
+                    Toast.makeText(
+                        requireContext(), 
+                        getString(R.string.alarm_scheduled, String.format("%02d:%02d", selectedHour, selectedMinute)), 
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                
+                // 5. Solicitar permiso de notificaciones si es necesario
+                checkAndRequestNotificationPermission()
             }
         }
         
         picker.show(parentFragmentManager, "TIME_PICKER")
+    }
+    
+    /**
+     * Método alternativo usando TimePickerDialog (Android nativo)
+     * Por si prefieres este estilo en lugar de MaterialTimePicker
+     */
+    private fun showTimePickerNative() {
+        val calendar = Calendar.getInstance()
+        val currentHour = viewModel.updateHour.value ?: calendar.get(Calendar.HOUR_OF_DAY)
+        val currentMinute = viewModel.updateMinute.value ?: calendar.get(Calendar.MINUTE)
+
+        TimePickerDialog(requireContext(), { _, selectedHour, selectedMinute ->
+            
+            viewLifecycleOwner.lifecycleScope.launch {
+                // 1. Guardar horario en el ViewModel
+                viewModel.saveUpdateTime(selectedHour, selectedMinute)
+                
+                // 2. Activar actualización automática
+                viewModel.saveAutoUpdate(true)
+                
+                // 3. Activar también la aplicación automática
+                viewModel.saveAutoApply(true)
+                
+                // 4. Actualizar UI inmediatamente (solo el texto)
+                binding.tvUpdateTime.text = String.format("%02d:%02d", selectedHour, selectedMinute)
+                
+                // 5. Programar alarma
+                val success = AlarmScheduler.scheduleExactAlarm(requireContext(), selectedHour, selectedMinute)
+                
+                if (!success && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                    AlarmScheduler.requestExactAlarmPermission(requireContext())
+                    Toast.makeText(requireContext(), 
+                        getString(R.string.need_exact_alarm_permission), 
+                        Toast.LENGTH_LONG).show()
+                } else if (success) {
+                    Toast.makeText(
+                        requireContext(), 
+                        "Actualización automática activada a las ${String.format("%02d:%02d", selectedHour, selectedMinute)}", 
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                
+                checkAndRequestNotificationPermission()
+            }
+            
+        }, currentHour, currentMinute, true).show()
+    }
+    
+    /**
+     * Comprueba y solicita el permiso de notificaciones con diálogo explicativo
+     */
+    private fun checkAndRequestNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(
+                    requireContext(), 
+                    Manifest.permission.POST_NOTIFICATIONS
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+                return
+            }
+
+            MaterialAlertDialogBuilder(requireContext())
+                .setTitle(getString(R.string.notification_permission_title))
+                .setMessage(getString(R.string.notification_permission_message))
+                .setPositiveButton(getString(R.string.notification_permission_continue)) { _, _ ->
+                    requestNotificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                }
+                .setNegativeButton(getString(R.string.notification_permission_later), null)
+                .show()
+        }
     }
     
     private fun showResolutionDialog() {
@@ -232,17 +374,12 @@ class SettingsFragment : Fragment() {
             .setSingleChoiceItems(languages, selectedIndex) { dialog, which ->
                 val selectedLang = values[which]
                 
-                // Guardar en preferencias
                 viewModel.saveLanguage(selectedLang)
-                
-                // Guardar también en SharedPreferences de la Application
                 WallpaperApp.prefs.edit().putString("language", selectedLang).apply()
                 
-                // Aplicar el idioma inmediatamente
                 val localeList = LocaleListCompat.forLanguageTags(selectedLang)
                 AppCompatDelegate.setApplicationLocales(localeList)
                 
-                // Recargar la actividad para ver los cambios inmediatamente
                 requireActivity().recreate()
                 
                 dialog.dismiss()

@@ -1,3 +1,4 @@
+// app/src/main/java/com/gnzalobnites/dailywallpapers/ui/history/HistoryFragment.kt
 package com.gnzalobnites.dailywallpapers.ui.history
 
 import android.os.Bundle
@@ -149,6 +150,13 @@ class HistoryFragment : Fragment() {
             binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
         }
         
+        viewModel.message.observe(viewLifecycleOwner) { msg ->
+            msg?.let {
+                Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+                viewModel.clearMessage()
+            }
+        }
+        
         sharedViewModel.successMessage.observe(viewLifecycleOwner) { message ->
             message?.let {
                 Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
@@ -178,36 +186,50 @@ class HistoryFragment : Fragment() {
             binding.swipeRefresh.isRefreshing = false
         }
     }
+        
+    // app/src/main/java/com/gnzalobnites/dailywallpapers/ui/history/HistoryFragment.kt
+private fun showImageOptions(image: BingImage) {
+    val items = mutableListOf(
+        if (image.isFavorite) getString(R.string.remove_from_favorites) 
+        else getString(R.string.add_to_favorites)
+    )
     
-    private fun showImageOptions(image: BingImage) {
-        val items = mutableListOf(
-            if (image.isFavorite) getString(R.string.remove_from_favorites) 
-            else getString(R.string.add_to_favorites)
-        )
-        
-        if (image.localPath != null) {
-            items.add(getString(R.string.view_in_gallery))
-        }
-        
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle(image.title)
-            .setItems(items.toTypedArray()) { _, which ->
-                when (which) {
-                    0 -> viewModel.toggleFavorite(image)
-                    1 -> openGallery(image)
+    // Verificamos si ya existe el archivo en la ruta local
+    val hasLocalPath = image.localPath != null
+    
+    if (!hasLocalPath) {
+        items.add(getString(R.string.save_internal_storage))
+    } else {
+        items.add(getString(R.string.view_internal_path))
+    }
+    
+    MaterialAlertDialogBuilder(requireContext())
+        .setTitle(image.title)
+        .setItems(items.toTypedArray()) { _, which ->
+            when (which) {
+                0 -> viewModel.toggleFavorite(image)
+                1 -> {
+                    if (!hasLocalPath) {
+                        // Iniciar la descarga y el guardado
+                        viewModel.saveToInternalStorage(image)
+                    } else {
+                        // Mostrar la ruta del archivo ya guardado
+                        openGallery(image)
+                    }
                 }
             }
-            .show()
-    }
-    
-    private fun openGallery(image: BingImage) {
-        image.localPath?.let { path ->
-            Toast.makeText(requireContext(), "${getString(R.string.view_in_gallery)}: $path", Toast.LENGTH_SHORT).show()
         }
+        .show()
+}
+
+private fun openGallery(image: BingImage) {
+    image.localPath?.let { path ->
+        Toast.makeText(requireContext(), "${getString(R.string.file_saved_at)} $path", Toast.LENGTH_LONG).show()
     }
+}
     
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
-}
+} 

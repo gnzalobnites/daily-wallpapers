@@ -5,7 +5,8 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
-import com.gnzalobnites.dailywallpapers.worker.WorkerScheduler
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.flow.first
 
 class WallpaperApp : Application() {
     
@@ -20,14 +21,28 @@ class WallpaperApp : Application() {
     override fun onCreate() {
         super.onCreate()
         
-        // Inicializar SharedPreferences
         prefs = getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
-        
-        // Aplicar idioma guardado ANTES de cualquier actividad
         applySavedLanguage()
         
-        // Inicializar el scheduler con las preferencias guardadas
-        WorkerScheduler.scheduleFromPreferences(this)
+        // Programar alarma solo si el permiso está concedido
+        runBlocking {
+            val preferencesManager = com.gnzalobnites.dailywallpapers.data.preferences.PreferencesManager(this@WallpaperApp)
+            val autoUpdate = preferencesManager.autoUpdate.first()
+            
+            if (autoUpdate && hasExactAlarmPermission()) {
+                val hour = preferencesManager.updateHour.first()
+                val minute = preferencesManager.updateMinute.first()
+                AlarmScheduler.scheduleExactAlarm(this@WallpaperApp, hour, minute)
+            }
+        }
+    }
+    
+    private fun hasExactAlarmPermission(): Boolean {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+            val alarmManager = getSystemService(Context.ALARM_SERVICE) as android.app.AlarmManager
+            return alarmManager.canScheduleExactAlarms()
+        }
+        return true
     }
     
     private fun applySavedLanguage() {
