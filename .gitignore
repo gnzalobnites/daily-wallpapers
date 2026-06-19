@@ -100,3 +100,11 @@ todo-kotlin.txt
 # Gradle local
 .gradle/
 build/
+
+# Windows portable build environment
+android-sdk/
+AndroidPortable/
+setup.bat
+
+# Windows helper
+# gradlew.bat
