@@ -29,16 +29,18 @@ Una aplicación Android que trae el **fondo de pantalla diario de Bing** directa
 
 ## 📱 Requisitos
 
-- **Android 7.0 (API 24) o superior**
+- **Android 6.0 (API 23) o superior**
 - Conexión a internet para descargar wallpapers
 - Espacio de almacenamiento para guardar imágenes
 
 ## 🚀 Instalación
 
-### Desde Play Store (próximamente)
-```bash
-# Enlace pendiente de publicación
-```
+### 📲 Desde tiendas de aplicaciones
+
+| Tienda | Enlace |
+|--------|--------|
+| **F-Droid** | [![F-Droid](https://img.shields.io/badge/F--Droid-1.1-blue)](https://f-droid.org/packages/com.gnzalobnites.dailywallpapers) |
+| **APKPure** | [![APKPure](https://img.shields.io/badge/APKPure-1.1-orange)](https://apkpure.net/daily-walpappers/com.gnzalobnites.dailywallpapers) |
 
 Desde Releases
 
@@ -193,9 +195,3 @@ GitHub: @gnzalobnites
 - Bing Wallpaper API - Por proveer las imágenes diarias
 - Material Design - Por las guías de diseño
 - Todos los contribuidores y usuarios de la app
-
----
-
-<p align="center">
-  Hecho con ❤️ para quienes aman de los wallpapers diarios
-</p>
