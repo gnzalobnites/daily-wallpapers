@@ -136,13 +136,7 @@
     <string name="update_check_error">Error checking for updates</string>
     <string name="update_dialog_title">Update available</string>
     <string name="update_dialog_message">A new version %s is available. Do you want to download it?</string>
-    <string name="update_dialog_download">Download</string>
     <string name="update_dialog_later">Later</string>
-    <string name="update_download_title">Downloading update</string>
-    <string name="update_download_description">Downloading Daily Wallpapers update...</string>
-    <string name="update_download_started">Download started</string>
-    <string name="update_file_not_found">Update file not found</string>
-    <string name="update_no_installer">No app found to install the update</string>
     
     <!-- Notificaciones -->
     <string name="notification_channel_name">Wallpaper updates</string>
@@ -169,4 +163,11 @@
     <string name="need_exact_alarm_permission">For automatic updates, you need to allow exact alarms. Please grant the permission on the next screen.</string>
     <string name="alarm_scheduled">Update scheduled for %s</string>
     <string name="settings_time">Time</string>
+    <!-- Battery optimization step -->
+    <string name="battery_step_title">One more step to keep it always working</string>
+    <string name="battery_step_message">Some manufacturers (like ZTE, Xiaomi, Huawei or Oppo) restrict background apps by default. If your wallpaper doesn\'t update automatically, check this setting.</string>
+    <string name="battery_step_button_open">Open battery settings</string>
+    <string name="battery_step_button_continue">Continue</string>
+    <string name="battery_step_generic_hint">Look for the battery or auto-start option for this app and enable it.</string>
+    <string name="update_dialog_open_fdroid">View on F-Droid</string>
 </resources> 

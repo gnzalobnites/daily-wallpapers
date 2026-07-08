@@ -1,5 +1,6 @@
 package com.gnzalobnites.dailywallpapers.data.api
 
+import com.gnzalobnites.dailywallpapers.BuildConfig
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -10,7 +11,11 @@ object RetrofitClient {
     private const val BASE_URL = "https://www.bing.com/"
     
     private val loggingInterceptor = HttpLoggingInterceptor().apply {
-        level = HttpLoggingInterceptor.Level.BODY
+        level = if (BuildConfig.DEBUG) {
+            HttpLoggingInterceptor.Level.BODY
+        } else {
+            HttpLoggingInterceptor.Level.NONE
+        }
     }
     
     private val client = OkHttpClient.Builder()

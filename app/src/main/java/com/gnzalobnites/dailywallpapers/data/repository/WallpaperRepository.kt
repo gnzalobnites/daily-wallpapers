@@ -57,15 +57,16 @@ class WallpaperRepository(private val context: Context) {
     suspend fun downloadBitmap(imageUrl: String): Result<Bitmap> {
         return withContext(Dispatchers.IO) {
             try {
-                val url = URL(imageUrl)
-                val connection = url.openConnection()
+                val connection = URL(imageUrl).openConnection().apply {
+                    connectTimeout = 15_000
+                    readTimeout = 15_000
+                }
                 connection.connect()
-                
-                val inputStream = connection.getInputStream()
-                val bitmap = BitmapFactory.decodeStream(inputStream)
-                inputStream.close()
-                
-                Result.success(bitmap)
+
+                val bitmap = connection.getInputStream().use { BitmapFactory.decodeStream(it) }
+
+                bitmap?.let { Result.success(it) }
+                    ?: Result.failure(Exception("No se pudo decodificar la imagen"))
             } catch (e: Exception) {
                 Result.failure(e)
             }

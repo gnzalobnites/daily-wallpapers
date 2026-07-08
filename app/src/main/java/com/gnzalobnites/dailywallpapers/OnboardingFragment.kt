@@ -92,32 +92,51 @@ class OnboardingFragment : Fragment() {
 
     private fun checkPermissionAndNavigate() {
         if (hasExactAlarmPermission()) {
-            saveOnboardingCompleted()
-            
             // Programar alarmas con las preferencias actuales
             lifecycleScope.launch {
                 val prefsManager = com.gnzalobnites.dailywallpapers.data.preferences.PreferencesManager(requireContext())
                 val autoUpdate = prefsManager.autoUpdate.first()
-                
+
                 if (autoUpdate) {
                     val hour = prefsManager.updateHour.first()
                     val minute = prefsManager.updateMinute.first()
                     AlarmScheduler.scheduleExactAlarm(requireContext(), hour, minute)
                 }
-                
+
                 // También programar WorkManager como respaldo
                 WorkerScheduler.scheduleFromPreferences(requireContext())
             }
-            
-            Toast.makeText(requireContext(), 
-                getString(com.gnzalobnites.dailywallpapers.R.string.onboarding_toast_granted), 
+
+            Toast.makeText(requireContext(),
+                getString(com.gnzalobnites.dailywallpapers.R.string.onboarding_toast_granted),
                 Toast.LENGTH_LONG).show()
-            
-            navigateToMain()
+
+            showBatteryStepIfNeeded()
         } else {
-            Toast.makeText(requireContext(), 
-                getString(com.gnzalobnites.dailywallpapers.R.string.onboarding_toast_denied), 
+            Toast.makeText(requireContext(),
+                getString(com.gnzalobnites.dailywallpapers.R.string.onboarding_toast_denied),
                 Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun showBatteryStepIfNeeded() {
+        if (!ManufacturerBatteryHelper.isKnownRestrictiveManufacturer()) {
+            // Fabricante cercano a AOSP (Samsung, Pixel, etc.): no hace falta este paso
+            saveOnboardingCompleted()
+            navigateToMain()
+            return
+        }
+
+        binding.stepPermission.visibility = View.GONE
+        binding.stepBattery.visibility = View.VISIBLE
+
+        binding.btnOpenBatterySettings.setOnClickListener {
+            ManufacturerBatteryHelper.openManufacturerBatterySettings(requireContext())
+        }
+
+        binding.tvContinueBattery.setOnClickListener {
+            saveOnboardingCompleted()
+            navigateToMain()
         }
     }
 

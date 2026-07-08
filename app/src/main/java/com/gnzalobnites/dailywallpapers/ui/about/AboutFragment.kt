@@ -17,9 +17,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.gnzalobnites.dailywallpapers.R
 import com.gnzalobnites.dailywallpapers.databinding.FragmentAboutBinding
-import com.gnzalobnites.dailywallpapers.utils.AppUpdater
-import com.gnzalobnites.dailywallpapers.utils.UpdateManager
-import com.gnzalobnites.dailywallpapers.utils.UpdateInfo
+import com.gnzalobnites.dailywallpapers.utils.FDroidUpdateChecker
+import com.gnzalobnites.dailywallpapers.utils.FDroidUpdateInfo
 import kotlinx.coroutines.launch
 
 class AboutFragment : Fragment() {
@@ -27,7 +26,6 @@ class AboutFragment : Fragment() {
     private var _binding: FragmentAboutBinding? = null
     private val binding get() = _binding!!
     private val viewModel: AboutViewModel by viewModels()
-    private var appUpdater: AppUpdater? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -118,7 +116,8 @@ class AboutFragment : Fragment() {
         startActivity(intent)
     }
 
-    // Comprobación manual de actualizaciones
+    // Comprobación manual de actualizaciones (solo consulta la API de F-Droid,
+    // no descarga ningún binario)
     private fun checkForUpdatesManually() {
         // Deshabilitar el botón temporalmente para evitar spam de clics
         binding.btnCheckUpdates.isEnabled = false
@@ -126,11 +125,8 @@ class AboutFragment : Fragment() {
 
         lifecycleScope.launch {
             try {
-                val packageInfo = requireContext().packageManager.getPackageInfo(requireContext().packageName, 0)
-                val currentVersion = packageInfo.versionName
-
-                val updateManager = UpdateManager()
-                val updateInfo = updateManager.checkForUpdates(currentVersion)
+                val updateChecker = FDroidUpdateChecker()
+                val updateInfo = updateChecker.checkForUpdate(requireContext())
 
                 if (updateInfo != null) {
                     // Hay actualización
@@ -151,14 +147,14 @@ class AboutFragment : Fragment() {
         }
     }
 
-    // Diálogo para mostrar que hay actualización
-    private fun showUpdateAvailableDialog(updateInfo: UpdateInfo) {
+    // Diálogo para mostrar que hay actualización: abre la ficha de F-Droid,
+    // el usuario instala desde ahí (esta app nunca descarga ni instala nada)
+    private fun showUpdateAvailableDialog(updateInfo: FDroidUpdateInfo) {
         AlertDialog.Builder(requireContext())
             .setTitle(R.string.update_dialog_title)
             .setMessage(getString(R.string.update_dialog_message, updateInfo.versionName))
-            .setPositiveButton(R.string.update_dialog_download) { _, _ ->
-                appUpdater = AppUpdater(requireContext())
-                appUpdater?.downloadAndInstall(updateInfo.downloadUrl)
+            .setPositiveButton(R.string.update_dialog_open_fdroid) { _, _ ->
+                startActivity(FDroidUpdateChecker().buildFDroidPageIntent(requireContext()))
                 binding.btnCheckUpdates.isEnabled = true
                 binding.btnCheckUpdates.text = getString(R.string.update_check_button)
             }
@@ -175,7 +171,6 @@ class AboutFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        appUpdater?.cleanup()
         _binding = null
     }
 }
