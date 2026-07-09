@@ -14,6 +14,7 @@ import com.gnzalobnites.dailywallpapers.R
 import com.gnzalobnites.dailywallpapers.data.api.RetrofitClient
 import com.gnzalobnites.dailywallpapers.data.database.WallpaperDatabase
 import com.gnzalobnites.dailywallpapers.data.model.BingImage
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -40,6 +41,8 @@ class WallpaperRepository(private val context: Context) {
             image?.let {
                 Result.success(it)
             } ?: Result.failure(Exception("No se encontró imagen"))
+        } catch (e: CancellationException) {
+            throw e
         } catch (e: Exception) {
             Result.failure(e)
         }
@@ -49,6 +52,8 @@ class WallpaperRepository(private val context: Context) {
         return try {
             val response = api.getLastImages(index = 0, count = count)
             Result.success(response.images)
+        } catch (e: CancellationException) {
+            throw e
         } catch (e: Exception) {
             Result.failure(e)
         }
@@ -67,6 +72,8 @@ class WallpaperRepository(private val context: Context) {
 
                 bitmap?.let { Result.success(it) }
                     ?: Result.failure(Exception("No se pudo decodificar la imagen"))
+            } catch (e: CancellationException) {
+                throw e
             } catch (e: Exception) {
                 Result.failure(e)
             }
@@ -112,6 +119,8 @@ class WallpaperRepository(private val context: Context) {
                 
                 // Retornamos la ruta absoluta del archivo para guardarla en la BD
                 Result.success(file.absolutePath)
+            } catch (e: CancellationException) {
+                throw e
             } catch (e: Exception) {
                 Result.failure(e)
             }
@@ -153,6 +162,8 @@ class WallpaperRepository(private val context: Context) {
                     Result.failure(Exception("No se pudo guardar la imagen"))
                 }
                 
+            } catch (e: CancellationException) {
+                throw e
             } catch (e: Exception) {
                 Result.failure(e)
             }

@@ -6,7 +6,6 @@ import android.app.PendingIntent
 import android.app.WallpaperManager
 import android.content.Context
 import android.content.Intent
-import android.graphics.BitmapFactory
 import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
@@ -16,6 +15,7 @@ import com.gnzalobnites.dailywallpapers.MainActivity
 import com.gnzalobnites.dailywallpapers.R
 import com.gnzalobnites.dailywallpapers.data.repository.WallpaperRepository
 import com.gnzalobnites.dailywallpapers.data.preferences.PreferencesManager
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
@@ -61,40 +61,38 @@ class DailyWallpaperWorker(
                 return@withContext Result.retry()
             }
             
-            // Aplicar el wallpaper SIEMPRE si el autoApply está activado
-            if (autoApplyEnabled) {
-                val lastApplied = prefs.lastAppliedDate.first()
-                
+            val lastApplied = prefs.lastAppliedDate.first()
+            val alreadyAppliedToday = latestBingImage.startDate == lastApplied
+
+            // Aplicar el wallpaper solo si el autoApply está activado y todavía
+            // no se aplicó hoy. Esta guarda evita que la alarma exacta y el
+            // respaldo periódico de WorkManager dupliquen la aplicación del
+            // wallpaper y la notificación de éxito cuando ambos se disparan
+            // dentro de la misma ventana de 24 horas.
+            if (autoApplyEnabled && !alreadyAppliedToday) {
                 // Definimos un archivo temporal en la caché segura de la app
                 val cacheFile = File(appContext.cacheDir, CACHE_FILE_NAME)
-                var bitmap: android.graphics.Bitmap? = null
 
-                // LÓGICA DE CACHÉ INTELIGENTE
-                if (latestBingImage.startDate == lastApplied && cacheFile.exists()) {
-                    // 1. MODO OFFLINE: Ya lo bajamos hoy. Recuperamos el archivo sin usar red.
-                    bitmap = BitmapFactory.decodeFile(cacheFile.absolutePath)
-                    Log.d(TAG, appContext.getString(R.string.log_image_loaded_from_cache))
-                } else {
-                    // 2. MODO ONLINE: Es un día nuevo o el usuario borró la caché. Descargamos de Bing.
-                    val resolutionPref = prefs.wallpaperResolution.first()
-                    val imageUrl = if (resolutionPref == "hd") latestBingImage.getFullHdUrl() else latestBingImage.getMobileUrl()
-                    
-                    bitmap = repository.downloadBitmap(imageUrl).getOrNull()
-                    
-                    // 3. GUARDAR EN CACHÉ: Escribimos el archivo para la próxima vez que el Worker corra hoy.
-                    bitmap?.let { bmp ->
-                        try {
-                            FileOutputStream(cacheFile).use { out ->
-                                bmp.compress(android.graphics.Bitmap.CompressFormat.JPEG, JPEG_QUALITY, out)
-                            }
-                            Log.d(TAG, appContext.getString(R.string.log_image_saved_to_cache))
-                        } catch (e: Exception) {
-                            Log.e(TAG, appContext.getString(R.string.log_cache_write_error, e.message), e)
+                // Descargamos la imagen de Bing.
+                val resolutionPref = prefs.wallpaperResolution.first()
+                val imageUrl = if (resolutionPref == "hd") latestBingImage.getFullHdUrl() else latestBingImage.getMobileUrl()
+
+                val bitmap = repository.downloadBitmap(imageUrl).getOrNull()
+
+                // Guardamos en caché por resiliencia (p. ej. si el proceso muere
+                // justo después de descargar pero antes de terminar de aplicar).
+                bitmap?.let { bmp ->
+                    try {
+                        FileOutputStream(cacheFile).use { out ->
+                            bmp.compress(android.graphics.Bitmap.CompressFormat.JPEG, JPEG_QUALITY, out)
                         }
+                        Log.d(TAG, appContext.getString(R.string.log_image_saved_to_cache))
+                    } catch (e: Exception) {
+                        Log.e(TAG, appContext.getString(R.string.log_cache_write_error, e.message), e)
                     }
                 }
 
-                // 4. APLICACIÓN SEGURA: Procedemos a aplicarlo siempre (venga de la red o de la caché)
+                // APLICACIÓN SEGURA
                 if (bitmap != null) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                         wallpaperManager.setBitmap(bitmap, null, true, 
@@ -122,6 +120,12 @@ class DailyWallpaperWorker(
             reprogramarParaManana(prefs)
             return@withContext Result.success()
 
+        } catch (e: CancellationException) {
+            // Nunca atrapar cancelaciones: hay que dejar que se propaguen para
+            // no romper la cancelación cooperativa de la corrutina. Esto ocurre
+            // cuando WorkManager detiene el trabajo legítimamente (p. ej. se
+            // perdieron las constraints de red), no es un error real.
+            throw e
         } catch (e: Exception) {
             Log.e(TAG, appContext.getString(R.string.log_unexpected_error, e.message), e)
             showErrorNotification(appContext.getString(R.string.error_critical, e.localizedMessage ?: ""))
