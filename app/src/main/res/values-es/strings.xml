@@ -1,40 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Wallpapers Diarios</string>
+    <string name="app_name">Daily Wallpapers</string>
     
-    <!-- Strings para HistoryFragment - Almacenamiento interno -->
-<string name="save_internal_storage">Guardar en almacenamiento interno</string>
-<string name="view_internal_path">Ver ruta del archivo interno</string>
-<string name="saved_internal_success">Guardado en almacenamiento interno exitosamente</string>
-<string name="error_saving_internal">Error al escribir en almacenamiento interno</string>
-<string name="error_downloading_image">Error al descargar la imagen</string>
-<string name="file_saved_at">Archivo guardado en:</string>
+    <!-- Strings for HistoryFragment - Almacenamiento interno -->
+    <string name="save_internal_storage">Guardar en almacenamiento interno</string>
+    <string name="view_internal_path">Ver ruta del archivo interno</string>
+    <string name="saved_internal_success">Guardado en almacenamiento interno exitosamente</string>
+    <string name="error_saving_internal">Error al escribir en almacenamiento interno</string>
+    <string name="error_downloading_image">Error al descargar la imagen</string>
+    <string name="file_saved_at">Archivo guardado en:</string>
     
     <!-- Permiso de notificaciones -->
-<string name="notification_permission_title">Habilitar Notificaciones</string>
-<string name="notification_permission_message">Para asegurarnos de que sabes cuándo se actualizó correctamente tu fondo de pantalla o si hubo algún inconveniente, necesitamos tu permiso para mostrar notificaciones.</string>
-<string name="notification_permission_continue">Continuar</string>
-<string name="notification_permission_later">Ahora no</string>
-<string name="notification_permission_granted">Permiso de notificaciones concedido</string>
-<string name="notification_permission_denied">Permiso de notificaciones denegado. No recibirás alertas.</string>
+    <string name="notification_permission_title">Habilitar Notificaciones</string>
+    <string name="notification_permission_message">Para asegurarnos de que sabes cuándo se actualizó correctamente tu fondo de pantalla o si hubo algún inconveniente, necesitamos tu permiso para mostrar notificaciones.</string>
+    <string name="notification_permission_continue">Continuar</string>
+    <string name="notification_permission_later">Ahora no</string>
+    <string name="notification_permission_granted">Permiso de notificaciones concedido</string>
+    <string name="notification_permission_denied">Permiso de notificaciones denegado. No recibirás alertas.</string>
 
-<!-- Activación automática -->
-<string name="auto_update_activated_message">Actualización automática activada al seleccionar horario</string>
+    <!-- Activación automática -->
+    <string name="auto_update_activated_message">Actualización automática activada al seleccionar horario</string>
     
     <!-- Onboarding -->
     <string name="onboarding_title">Configuración Inicial</string>
     <string name="onboarding_message">Para que las tareas en segundo plano se ejecuten en el tiempo exacto que configures, es necesario habilitar el permiso de Alarmas y Recordatorios.\n\nEste permiso permite que el wallpaper se actualice automáticamente a la hora programada, incluso si la app está cerrada.</string>
     <string name="onboarding_benefits_title">Beneficios de conceder el permiso:</string>
     <string name="onboarding_benefit_auto_update">✓ Actualización automática diaria</string>
-<string name="onboarding_benefit_auto_apply">✓ Aplicación automática del wallpaper</string>
-<string name="onboarding_benefit_precise_schedule">✓ Programación precisa a la hora que elijas</string>
+    <string name="onboarding_benefit_auto_apply">✓ Aplicación automática del wallpaper</string>
+    <string name="onboarding_benefit_precise_schedule">✓ Programación precisa a la hora que elijas</string>
     <string name="onboarding_button_grant">Conceder Permiso</string>
     <string name="onboarding_skip">Omitir por ahora</string>
     <string name="onboarding_toast_skip">Puedes conceder el permiso más tarde desde Configuración</string>
     <string name="onboarding_toast_granted">¡Permiso concedido! Las actualizaciones automáticas funcionarán correctamente.</string>
     <string name="onboarding_toast_denied">El permiso no fue concedido. Las actualizaciones automáticas podrían tener retrasos.</string>
     
-    <!-- Resto de tu archivo... -->
+    <!-- Títulos -->
     <string name="title_settings">Ajustes</string>
     <string name="title_about">Acerca de</string>
     <string name="title_history">Historial</string>
@@ -163,6 +163,7 @@
     <string name="need_exact_alarm_permission">Para la actualización automática, necesitas permitir alarmas exactas. Por favor, concede el permiso en la siguiente pantalla.</string>
     <string name="alarm_scheduled">Actualización programada para las %s</string>
     <string name="settings_time">Hora</string>
+    
     <!-- Battery optimization step -->
     <string name="battery_step_title">Un paso más para que funcione siempre</string>
     <string name="battery_step_message">Algunos fabricantes (como ZTE, Xiaomi, Huawei u Oppo) limitan las apps en segundo plano por defecto. Si tu fondo de pantalla no se actualiza automáticamente, revisa este ajuste.</string>
@@ -170,4 +171,29 @@
     <string name="battery_step_button_continue">Continuar</string>
     <string name="battery_step_generic_hint">Busca la opción de batería o inicio automático para esta app y actívala.</string>
     <string name="update_dialog_open_fdroid">Ver en F-Droid</string>
+
+    <!-- DailyWallpaperWorker - Canales de notificación -->
+    <string name="notification_channel_updates_id">wallpaper_updates</string>
+    <string name="notification_channel_updates_name">Actualizaciones de Wallpaper</string>
+    <string name="notification_channel_updates_description">Notificaciones cuando el wallpaper se actualiza correctamente</string>
+    <string name="notification_channel_error_id">wallpaper_error_channel</string>
+    <string name="notification_channel_error_name">Errores de Wallpaper</string>
+    <string name="notification_channel_error_description">Notificaciones cuando falla la actualización automática del wallpaper</string>
+
+    <!-- DailyWallpaperWorker - Notificación de éxito -->
+    <string name="notification_success_message">El fondo de pantalla de hoy ha sido aplicado.</string>
+
+    <!-- DailyWallpaperWorker - Mensajes de error -->
+    <string name="error_connection_failed">No se pudo conectar con el servidor para obtener el wallpaper diario.</string>
+    <string name="error_processing_bing_data">Error al procesar los datos de la imagen de Bing.</string>
+    <string name="error_image_retrieval_failed">Falló la obtención de la imagen (ni en caché ni en red).</string>
+    <string name="error_critical">Ocurrió un error crítico: %s</string>
+
+    <!-- DailyWallpaperWorker - Mensajes de log -->
+    <string name="log_image_loaded_from_cache">Imagen cargada desde la caché local.</string>
+    <string name="log_image_saved_to_cache">Imagen guardada en caché local.</string>
+    <string name="log_cache_write_error">Error al escribir en caché: %s</string>
+    <string name="log_unexpected_error">Error inesperado: %s</string>
+    <string name="log_notification_error">Error al mostrar notificación: %s</string>
+
 </resources>
