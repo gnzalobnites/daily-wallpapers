@@ -103,6 +103,7 @@ class FullscreenPreviewDialog(
         sharedViewModel.isLoading.observe(viewLifecycleOwner) { loading ->
             binding.btnSetWallpaper.isEnabled = !loading
             binding.btnSaveWallpaper.isEnabled = !loading
+            binding.btnFavorite.isEnabled = !loading
         }
     }
 
@@ -117,7 +118,7 @@ class FullscreenPreviewDialog(
             toggleFavorite()
         }
 
-        // Botón "Set wallpaper" - Aplica directamente
+        // Botón "Set wallpaper"
         binding.btnSetWallpaper.setOnClickListener {
             showApplyOptions()
         }
@@ -133,8 +134,16 @@ class FullscreenPreviewDialog(
     private fun toggleFavorite() {
         isFavorite = !isFavorite
         updateFavoriteIcon()
+        // Llamar al callback y al ViewModel
         onFavoriteClick?.invoke(image)
-        sharedViewModel.toggleFavorite()
+        sharedViewModel.toggleFavorite(image)
+        // Mostrar mensaje
+        val message = if (isFavorite) {
+            getString(R.string.added_to_favorites)
+        } else {
+            getString(R.string.removed_from_favorites)
+        }
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 
     private fun updateFavoriteIcon() {
@@ -167,7 +176,6 @@ class FullscreenPreviewDialog(
                     2 -> 3 // Both
                     else -> 1
                 }
-                // Aplicar directamente usando el MainViewModel
                 sharedViewModel.applyWallpaper(image, location)
             }
             .setNeutralButton(getString(R.string.cancel), null)
@@ -186,7 +194,6 @@ class FullscreenPreviewDialog(
                 WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
                 WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
             )
-            // Ocultar la barra de estado
             window.decorView.systemUiVisibility = (
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
                 View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or

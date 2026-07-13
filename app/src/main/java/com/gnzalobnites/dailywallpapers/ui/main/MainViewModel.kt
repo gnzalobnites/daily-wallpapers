@@ -104,6 +104,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 }
                 
                 applyWallpaperOptimized(bitmap, flags)
+                repository.saveToHistory(image)
                 
                 preferences.saveLastAppliedDate(image.startDate)
                 _successMessage.postValue(getString(R.string.success_applied))
@@ -139,19 +140,24 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     
     fun toggleFavorite() {
         val image = _currentImage.value ?: return
+        toggleFavorite(image)
+    }
+
+    fun toggleFavorite(image: BingImage) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 repository.toggleFavorite(image)
                 val updatedImage = repository.getWallpaperByDate(image.startDate)
-                
+                val isShownInHome = image.startDate == _currentImage.value?.startDate
+
                 if (updatedImage != null) {
-                    _currentImage.postValue(updatedImage)
+                    if (isShownInHome) _currentImage.postValue(updatedImage)
                 } else {
                     val updated = image.copy(
                         isFavorite = !image.isFavorite,
                         appliedDate = image.appliedDate
                     )
-                    _currentImage.postValue(updated)
+                    if (isShownInHome) _currentImage.postValue(updated)
                 }
             } catch (e: Exception) {
                 _errorMessage.postValue("Error al actualizar favorito: ${e.message}")

@@ -96,7 +96,7 @@ abstract class BaseFeedFragment : Fragment() {
     }
 
     protected fun toggleFavorite(image: BingImage) {
-        sharedViewModel.toggleFavorite()
+        sharedViewModel.toggleFavorite(image)
         loadData()
     }
 
@@ -109,7 +109,7 @@ abstract class BaseFeedFragment : Fragment() {
             image = image,
             bitmap = bitmap,
             onFavoriteClick = { img ->
-                sharedViewModel.toggleFavorite()
+                sharedViewModel.toggleFavorite(img)
                 loadData()
             },
             onSaveWallpaper = { img ->
