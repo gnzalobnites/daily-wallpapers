@@ -80,8 +80,7 @@ class ImagePreviewFragment : BottomSheetDialogFragment() {
     
     private fun setupViews() {
         image?.let { img ->
-            binding.tvTitle.text = img.title
-            binding.tvDate.text = img.getFormattedDate()
+            binding.tvTitle.text = "${img.title} · ${img.getFormattedDate()}"
         }
         
         bitmap?.let { bmp ->

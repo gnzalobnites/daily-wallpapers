@@ -60,7 +60,7 @@ class MainFragment : Fragment() {
             val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
             
             binding.toolbar.updatePadding(top = insets.top)
-            binding.cardInfo.updatePadding(bottom = insets.bottom)
+            binding.infoContainer.updatePadding(bottom = insets.bottom + (24 * resources.displayMetrics.density).toInt())
             
             windowInsets
         }
