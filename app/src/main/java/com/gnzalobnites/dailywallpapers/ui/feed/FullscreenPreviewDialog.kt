@@ -9,22 +9,25 @@ import android.view.WindowManager
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.activityViewModels
 import com.bumptech.glide.Glide
 import com.gnzalobnites.dailywallpapers.R
 import com.gnzalobnites.dailywallpapers.data.model.BingImage
 import com.gnzalobnites.dailywallpapers.databinding.DialogFullscreenPreviewBinding
+import com.gnzalobnites.dailywallpapers.ui.main.MainViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class FullscreenPreviewDialog(
     private val image: BingImage,
     private val bitmap: Bitmap? = null,
     private val onFavoriteClick: ((BingImage) -> Unit)? = null,
-    private val onSetWallpaper: ((BingImage) -> Unit)? = null,
-    private val onSaveWallpaper: ((BingImage) -> Unit)? = null
+    private val onSaveWallpaper: ((BingImage) -> Unit)? = null,
+    private val onWallpaperApplied: (() -> Unit)? = null
 ) : DialogFragment() {
 
     private var _binding: DialogFullscreenPreviewBinding? = null
     private val binding get() = _binding!!
+    private val sharedViewModel: MainViewModel by activityViewModels()
 
     private var isFavorite: Boolean = image.isFavorite
 
@@ -47,6 +50,7 @@ class FullscreenPreviewDialog(
 
         setupViews()
         setupListeners()
+        setupObservers()
     }
 
     private fun setupViews() {
@@ -62,7 +66,7 @@ class FullscreenPreviewDialog(
                 .into(binding.ivPreview)
         }
 
-        // Mostrar título opcional
+        // Mostrar título
         val title = image.title
         val date = image.getFormattedDate() ?: ""
         if (title.isNotEmpty()) {
@@ -78,6 +82,30 @@ class FullscreenPreviewDialog(
         updateFavoriteIcon()
     }
 
+    private fun setupObservers() {
+        // Observar mensajes de éxito/error del MainViewModel
+        sharedViewModel.successMessage.observe(viewLifecycleOwner) { message ->
+            message?.let {
+                Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
+                sharedViewModel.clearMessages()
+                onWallpaperApplied?.invoke()
+                dismiss()
+            }
+        }
+
+        sharedViewModel.errorMessage.observe(viewLifecycleOwner) { error ->
+            error?.let {
+                Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
+                sharedViewModel.clearMessages()
+            }
+        }
+
+        sharedViewModel.isLoading.observe(viewLifecycleOwner) { loading ->
+            binding.btnSetWallpaper.isEnabled = !loading
+            binding.btnSaveWallpaper.isEnabled = !loading
+        }
+    }
+
     private fun setupListeners() {
         // Botón de retroceso
         binding.btnBack.setOnClickListener {
@@ -89,7 +117,7 @@ class FullscreenPreviewDialog(
             toggleFavorite()
         }
 
-        // Botón "Set wallpaper"
+        // Botón "Set wallpaper" - Aplica directamente
         binding.btnSetWallpaper.setOnClickListener {
             showApplyOptions()
         }
@@ -97,11 +125,8 @@ class FullscreenPreviewDialog(
         // Botón "Save wallpaper"
         binding.btnSaveWallpaper.setOnClickListener {
             onSaveWallpaper?.invoke(image) ?: run {
-                Toast.makeText(requireContext(), 
-                    getString(R.string.saved_to_gallery), 
-                    Toast.LENGTH_SHORT).show()
+                sharedViewModel.saveToGallery()
             }
-            dismiss()
         }
     }
 
@@ -109,6 +134,7 @@ class FullscreenPreviewDialog(
         isFavorite = !isFavorite
         updateFavoriteIcon()
         onFavoriteClick?.invoke(image)
+        sharedViewModel.toggleFavorite()
     }
 
     private fun updateFavoriteIcon() {
@@ -135,24 +161,14 @@ class FullscreenPreviewDialog(
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(getString(R.string.apply_wallpaper_title))
             .setItems(items) { _, which ->
-                when (which) {
-                    0 -> onSetWallpaper?.invoke(image) ?: run {
-                        Toast.makeText(requireContext(),
-                            getString(R.string.wallpaper_applied_home),
-                            Toast.LENGTH_SHORT).show()
-                    }
-                    1 -> onSetWallpaper?.invoke(image) ?: run {
-                        Toast.makeText(requireContext(),
-                            getString(R.string.wallpaper_applied_lock),
-                            Toast.LENGTH_SHORT).show()
-                    }
-                    2 -> onSetWallpaper?.invoke(image) ?: run {
-                        Toast.makeText(requireContext(),
-                            getString(R.string.wallpaper_applied_both),
-                            Toast.LENGTH_SHORT).show()
-                    }
+                val location = when (which) {
+                    0 -> 1 // Home
+                    1 -> 2 // Lock
+                    2 -> 3 // Both
+                    else -> 1
                 }
-                dismiss()
+                // Aplicar directamente usando el MainViewModel
+                sharedViewModel.applyWallpaper(image, location)
             }
             .setNeutralButton(getString(R.string.cancel), null)
             .show()
@@ -192,15 +208,15 @@ class FullscreenPreviewDialog(
             image: BingImage,
             bitmap: Bitmap? = null,
             onFavoriteClick: ((BingImage) -> Unit)? = null,
-            onSetWallpaper: ((BingImage) -> Unit)? = null,
-            onSaveWallpaper: ((BingImage) -> Unit)? = null
+            onSaveWallpaper: ((BingImage) -> Unit)? = null,
+            onWallpaperApplied: (() -> Unit)? = null
         ): FullscreenPreviewDialog {
             return FullscreenPreviewDialog(
                 image,
                 bitmap,
                 onFavoriteClick,
-                onSetWallpaper,
-                onSaveWallpaper
+                onSaveWallpaper,
+                onWallpaperApplied
             )
         }
     }
