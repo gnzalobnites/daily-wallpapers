@@ -1,5 +1,6 @@
 package com.gnzalobnites.dailywallpapers.ui.feed
 
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.View
 import android.widget.ProgressBar
@@ -43,6 +44,9 @@ abstract class BaseFeedFragment : Fragment() {
             },
             onSaveClick = { image ->
                 saveToGallery(image)
+            },
+            onImageClick = { image ->
+                showFullscreenPreview(image)
             }
         )
 
@@ -103,6 +107,26 @@ abstract class BaseFeedFragment : Fragment() {
     protected fun saveToGallery(image: BingImage) {
         Toast.makeText(requireContext(), getString(R.string.saved_to_gallery), Toast.LENGTH_SHORT).show()
     }
+
+    
+    protected fun showFullscreenPreview(image: BingImage, bitmap: Bitmap? = null) {
+        val dialog = FullscreenPreviewDialog.newInstance(
+            image = image,
+            bitmap = bitmap,
+            onFavoriteClick = { img ->
+                toggleFavorite(img)
+                loadData()
+            },
+            onSetWallpaper = { img ->
+                showApplyOptions(img)
+            },
+            onSaveWallpaper = { img ->
+                saveToGallery(img)
+            }
+        )
+        dialog.show(childFragmentManager, "FullscreenPreview")
+    }
+
 
     protected fun showEmptyState(empty: Boolean) {
         val tvEmpty = view?.findViewById<TextView>(R.id.tvEmpty)

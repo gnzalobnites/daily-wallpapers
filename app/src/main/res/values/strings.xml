@@ -239,4 +239,12 @@
     <string name="log_cache_write_error">Error writing to cache: %s</string>
     <string name="log_unexpected_error">Unexpected error: %s</string>
     <string name="log_notification_error">Error showing notification: %s</string>
+
+    <!-- Fullscreen Preview -->
+    <string name="action_set_wallpaper">Set wallpaper</string>
+    <string name="action_save_wallpaper">Save wallpaper</string>
+    <string name="action_share_wallpaper">Share</string>
+    <string name="back">Back</string>
+    <string name="preview_title">%s · %s</string>
+
 </resources>

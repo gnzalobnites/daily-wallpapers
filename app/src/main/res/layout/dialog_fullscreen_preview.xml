@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black">
+
+    <!-- Imagen de fondo -->
+    <ImageView
+        android:id="@+id/ivPreview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:contentDescription="@string/app_name"
+        tools:src="@drawable/placeholder_image" />
+
+    <!-- Botón de retroceso - Esquina superior izquierda -->
+    <ImageButton
+        android:id="@+id/btnBack"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_margin="24dp"
+        android:background="@drawable/ic_circle_background"
+        android:src="@drawable/ic_arrow_back"
+        android:padding="12dp"
+        android:contentDescription="@string/back"
+        android:elevation="4dp"
+        android:layout_gravity="top|start"
+        app:tint="@android:color/white" />
+
+    <!-- Botón de acción extra - Esquina inferior derecha (favorito) -->
+    <ImageButton
+        android:id="@+id/btnFavorite"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_margin="24dp"
+        android:background="@drawable/ic_circle_background"
+        android:src="@drawable/ic_favorite_border"
+        android:padding="12dp"
+        android:contentDescription="@string/action_favorite"
+        android:elevation="4dp"
+        android:layout_gravity="bottom|end"
+        app:tint="@android:color/white" />
+
+    <!-- Título en la parte inferior izquierda -->
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|start"
+        android:layout_marginStart="24dp"
+        android:layout_marginBottom="120dp"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:shadowColor="#88000000"
+        android:shadowDx="0"
+        android:shadowDy="2"
+        android:shadowRadius="8"
+        android:maxLines="2"
+        android:ellipsize="end"
+        tools:text="Antelope Canyon on the Navajo Nation..."
+        android:visibility="gone" />
+
+    <!-- Contenedor de botones principales - Parte inferior central -->
+    <LinearLayout
+        android:id="@+id/buttonContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="48dp"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSetWallpaper"
+            style="@style/Widget.Material3.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="56dp"
+            android:layout_marginEnd="12dp"
+            android:backgroundTint="@android:color/white"
+            android:text="@string/action_set_wallpaper"
+            android:textColor="#2196F3"
+            android:textSize="16sp"
+            android:paddingHorizontal="32dp"
+            app:cornerRadius="28dp"
+            app:icon="@drawable/ic_wallpaper"
+            app:iconTint="#2196F3"
+            app:iconGravity="textStart" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSaveWallpaper"
+            style="@style/Widget.Material3.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="56dp"
+            android:layout_marginStart="12dp"
+            android:backgroundTint="@android:color/white"
+            android:text="@string/action_save_wallpaper"
+            android:textColor="#2196F3"
+            android:textSize="16sp"
+            android:paddingHorizontal="32dp"
+            app:cornerRadius="28dp"
+            app:icon="@drawable/ic_save"
+            app:iconTint="#2196F3"
+            app:iconGravity="textStart" />
+
+    </LinearLayout>
+
+</FrameLayout>

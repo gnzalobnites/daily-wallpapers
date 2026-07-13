@@ -14,7 +14,8 @@ import com.gnzalobnites.dailywallpapers.databinding.ItemWallpaperCardBinding
 class WallpaperCardAdapter(
     private val onFavoriteClick: (BingImage) -> Unit,
     private val onApplyClick: (BingImage) -> Unit,
-    private val onSaveClick: (BingImage) -> Unit
+    private val onSaveClick: (BingImage) -> Unit,
+    private val onImageClick: (BingImage) -> Unit
 ) : ListAdapter<BingImage, WallpaperCardAdapter.ViewHolder>(DiffCallback()) {
 
     class DiffCallback : DiffUtil.ItemCallback<BingImage>() {
@@ -31,7 +32,8 @@ class WallpaperCardAdapter(
         private val binding: ItemWallpaperCardBinding,
         private val onFavoriteClick: (BingImage) -> Unit,
         private val onApplyClick: (BingImage) -> Unit,
-        private val onSaveClick: (BingImage) -> Unit
+        private val onSaveClick: (BingImage) -> Unit,
+        private val onImageClick: (BingImage) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(image: BingImage) {
@@ -58,6 +60,8 @@ class WallpaperCardAdapter(
                     ContextCompat.getColorStateList(ivWallpaper.context, R.color.grey_600)
                 }
 
+                ivWallpaper.setOnClickListener { onImageClick(image) }
+
                 btnFavorite.setOnClickListener { onFavoriteClick(image) }
                 btnApply.setOnClickListener { onApplyClick(image) }
                 btnSave.setOnClickListener { onSaveClick(image) }
@@ -69,7 +73,7 @@ class WallpaperCardAdapter(
         val binding = ItemWallpaperCardBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
         )
-        return ViewHolder(binding, onFavoriteClick, onApplyClick, onSaveClick)
+        return ViewHolder(binding, onFavoriteClick, onApplyClick, onSaveClick, onImageClick)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
