@@ -217,8 +217,8 @@ class WallpaperFeedFragment : Fragment() {
         override fun createFragment(position: Int): Fragment {
             return when (position) {
                 0 -> WeekFragment()
-                1 -> CollectionFragment()
-                2 -> CommunityFragment()
+                1 -> FavoritesFragment()
+                2 -> HistoryFeedFragment()
                 else -> WeekFragment()
             }
         }

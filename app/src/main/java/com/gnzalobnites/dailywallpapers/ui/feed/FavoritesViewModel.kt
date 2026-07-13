@@ -10,7 +10,7 @@ import com.gnzalobnites.dailywallpapers.data.repository.WallpaperRepository
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-class CommunityViewModel(application: Application) : AndroidViewModel(application) {
+class FavoritesViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository = WallpaperRepository(application)
 
@@ -20,10 +20,10 @@ class CommunityViewModel(application: Application) : AndroidViewModel(applicatio
     private val _isLoading = MutableLiveData(false)
     val isLoading: LiveData<Boolean> = _isLoading
 
-    fun loadHistory() {
+    fun loadFavorites() {
         viewModelScope.launch {
             _isLoading.value = true
-            repository.allWallpapers.collect { list ->
+            repository.favoriteWallpapers.collect { list ->
                 _wallpapers.value = list
                 _isLoading.value = false
             }

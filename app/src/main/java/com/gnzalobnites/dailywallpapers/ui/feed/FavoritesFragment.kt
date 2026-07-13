@@ -6,20 +6,20 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.gnzalobnites.dailywallpapers.R
-import com.gnzalobnites.dailywallpapers.databinding.FragmentCommunityBinding
+import com.gnzalobnites.dailywallpapers.databinding.FragmentFavoritesBinding
 
-class CommunityFragment : BaseFeedFragment() {
+class FavoritesFragment : BaseFeedFragment() {
 
-    private var _binding: FragmentCommunityBinding? = null
+    private var _binding: FragmentFavoritesBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: CommunityViewModel by viewModels()
+    private val viewModel: FavoritesViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentCommunityBinding.inflate(inflater, container, false)
+        _binding = FragmentFavoritesBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -40,10 +40,10 @@ class CommunityFragment : BaseFeedFragment() {
         }
     }
 
-    override fun getEmptyTextResId(): Int = R.string.empty_community
+    override fun getEmptyTextResId(): Int = R.string.empty_collection
 
     override fun loadData() {
-        viewModel.loadHistory()
+        viewModel.loadFavorites()
     }
 
     override fun onDestroyView() {

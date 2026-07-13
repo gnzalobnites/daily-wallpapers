@@ -1,6 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Daily Wallpapers</string>
+    <string name="app_name">Wallpapers Diarios</string>
+    
+    <!-- Feed Tabs -->
+    <string name="tab_week">Esta semana</string>
+    <string name="tab_collection">Favoritos</string>
+    <string name="tab_community">Historial</string>
+
+    <!-- Region Chips -->
+    <string name="chip_worldwide">Mundial</string>
+    <string name="chip_usa">EE.UU.</string>
+    <string name="chip_australia">Australia</string>
+
+    <!-- Empty states -->
+    <string name="empty_week">No hay wallpapers disponibles esta semana</string>
+    <string name="empty_collection">No hay wallpapers en tu colección</string>
+    <string name="empty_community">No hay wallpapers de la comunidad disponibles</string>
+
+    <!-- Actions -->
+    <string name="action_favorite">Favorito</string>
+    <string name="action_apply">Aplicar</string>
+    <string name="action_save">Guardar</string>
+
+    <!-- Toast messages -->
+    <string name="added_to_favorites">Añadido a favoritos</string>
+    <string name="removed_from_favorites">Eliminado de favoritos</string>
+    <string name="saved_to_gallery">Guardado en la galería</string>
+    <string name="wallpaper_applied_home">Fondo aplicado en pantalla principal</string>
+    <string name="wallpaper_applied_lock">Fondo aplicado en pantalla de bloqueo</string>
+    <string name="wallpaper_applied_both">Fondo aplicado en ambas pantallas</string>
+
+    <!-- Donation -->
+    <string name="donation_icon_desc">Donar</string>
+    <string name="donation_title">☕ Apoya el proyecto</string>
+    <string name="donation_message">Si te gusta Wallpapers Diarios, considera hacer una donación para ayudar a mantener el proyecto activo.</string>
+    <string name="donation_buy_me_coffee">☕ Invítame un café</string>
+    <string name="donation_paypal">💰 PayPal</string>
+
+    <!-- Menu -->
+    <string name="menu_settings">⚙️ Ajustes</string>
+    <string name="menu_about">ℹ️ Acerca de</string>
+
+    <!-- Region -->
+    <string name="region_icon_desc">Selector de región</string>
+    <string name="region_dialog_title">🌍 Seleccionar región</string>
+    <string name="region_filter_applied">Filtro aplicado: %s</string>
+    <string name="region_selected">Región seleccionada: %s</string>
+
+    <!-- Fullscreen Preview -->
+    <string name="action_set_wallpaper">Establecer fondo</string>
+    <string name="action_save_wallpaper">Guardar fondo</string>
+    <string name="action_share_wallpaper">Compartir</string>
+    <string name="back">Volver</string>
+    <string name="preview_title">%s · %s</string>
     
     <!-- Strings for HistoryFragment - Almacenamiento interno -->
     <string name="save_internal_storage">Guardar en almacenamiento interno</string>
@@ -49,8 +101,6 @@
     <string name="menu_gallery">Galería</string>
     <string name="menu_slideshow">Presentación</string>
     <string name="menu_history">Historial</string>
-    <string name="menu_settings">Ajustes</string>
-    <string name="menu_about">Acerca de</string>
     <string name="menu_all">Todos</string>
     <string name="menu_favorites">Favoritos</string>
     
@@ -137,6 +187,7 @@
     <string name="update_dialog_title">Actualización disponible</string>
     <string name="update_dialog_message">La versión %s está disponible. ¿Deseas descargarla?</string>
     <string name="update_dialog_later">Más tarde</string>
+    <string name="update_dialog_open_fdroid">Ver en F-Droid</string>
     
     <!-- Notificaciones -->
     <string name="notification_channel_name">Actualizaciones de wallpaper</string>
@@ -170,7 +221,6 @@
     <string name="battery_step_button_open">Abrir ajustes de batería</string>
     <string name="battery_step_button_continue">Continuar</string>
     <string name="battery_step_generic_hint">Busca la opción de batería o inicio automático para esta app y actívala.</string>
-    <string name="update_dialog_open_fdroid">Ver en F-Droid</string>
 
     <!-- DailyWallpaperWorker - Canales de notificación -->
     <string name="notification_channel_updates_id">wallpaper_updates</string>
@@ -195,5 +245,4 @@
     <string name="log_cache_write_error">Error al escribir en caché: %s</string>
     <string name="log_unexpected_error">Error inesperado: %s</string>
     <string name="log_notification_error">Error al mostrar notificación: %s</string>
-
 </resources>

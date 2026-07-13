@@ -6,20 +6,20 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.gnzalobnites.dailywallpapers.R
-import com.gnzalobnites.dailywallpapers.databinding.FragmentCollectionBinding
+import com.gnzalobnites.dailywallpapers.databinding.FragmentHistoryFeedBinding
 
-class CollectionFragment : BaseFeedFragment() {
+class HistoryFeedFragment : BaseFeedFragment() {
 
-    private var _binding: FragmentCollectionBinding? = null
+    private var _binding: FragmentHistoryFeedBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: CollectionViewModel by viewModels()
+    private val viewModel: HistoryFeedViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentCollectionBinding.inflate(inflater, container, false)
+        _binding = FragmentHistoryFeedBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -40,10 +40,10 @@ class CollectionFragment : BaseFeedFragment() {
         }
     }
 
-    override fun getEmptyTextResId(): Int = R.string.empty_collection
+    override fun getEmptyTextResId(): Int = R.string.empty_community
 
     override fun loadData() {
-        viewModel.loadFavorites()
+        viewModel.loadHistory()
     }
 
     override fun onDestroyView() {

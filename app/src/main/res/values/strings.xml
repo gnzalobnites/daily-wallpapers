@@ -3,8 +3,8 @@
 
     <!-- Feed Tabs -->
     <string name="tab_week">This week</string>
-    <string name="tab_collection">Our collection</string>
-    <string name="tab_community">Community</string>
+    <string name="tab_collection">Favoritos</string>
+    <string name="tab_community">Historial</string>
 
     <!-- Region Chips -->
     <string name="chip_worldwide">Worldwide</string>
