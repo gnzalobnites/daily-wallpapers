@@ -11,7 +11,7 @@
     <string name="chip_worldwide">Mundial</string>
     <string name="chip_usa">EE.UU.</string>
     <string name="chip_australia">Australia</string>
-
+    
     <!-- Empty states -->
     <string name="empty_week">No hay wallpapers disponibles esta semana</string>
     <string name="empty_collection">No hay wallpapers en tu colección</string>

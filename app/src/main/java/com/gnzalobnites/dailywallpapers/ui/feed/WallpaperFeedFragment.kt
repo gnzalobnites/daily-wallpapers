@@ -7,25 +7,35 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.os.LocaleListCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.google.android.material.chip.Chip
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayoutMediator
 import com.gnzalobnites.dailywallpapers.R
+import com.gnzalobnites.dailywallpapers.data.preferences.PreferencesManager
 import com.gnzalobnites.dailywallpapers.databinding.FragmentWallpaperFeedBinding
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.first
+import com.gnzalobnites.dailywallpapers.RegionManager
+import com.gnzalobnites.dailywallpapers.RegionListAdapter
+import com.gnzalobnites.dailywallpapers.RegionOption
 
 class WallpaperFeedFragment : Fragment() {
 
     private var _binding: FragmentWallpaperFeedBinding? = null
     private val binding get() = _binding!!
 
+    private var currentRegion: String = "es-ES"
+    private lateinit var chipAdapter: RegionChipAdapter
+
     companion object {
-        // Configura aquí tus URLs de donación
         private const val DONATION_URL = "https://www.buymeacoffee.com/tuusuario"
         private const val DONATION_URL_PAYPAL = "https://www.paypal.me/tuusuario"
     }
@@ -44,8 +54,9 @@ class WallpaperFeedFragment : Fragment() {
 
         setupEdgeToEdge()
         setupToolbar()
-        setupChips()
+        setupRegionChips()
         setupViewPager()
+        loadSavedRegion()
     }
 
     private fun setupEdgeToEdge() {
@@ -78,6 +89,38 @@ class WallpaperFeedFragment : Fragment() {
                 showRegionDialog()
             }
         }
+    }
+
+    private fun setupRegionChips() {
+        // Obtener todas las regiones de RegionManager
+        val regions = RegionManager.REGIONS
+        
+        chipAdapter = RegionChipAdapter(regions) { selectedRegion ->
+            onRegionSelected(selectedRegion)
+        }
+        
+        binding.rvRegionChips.adapter = chipAdapter
+    }
+
+    private fun loadSavedRegion() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            val prefs = PreferencesManager(requireContext())
+            currentRegion = prefs.region.first()
+            updateFlagIcon()
+            
+            // Seleccionar el chip correspondiente
+            val index = RegionManager.REGIONS.indexOfFirst { it.localeTag == currentRegion }
+            if (index >= 0) {
+                // Notificar al adaptador que seleccione esta posición
+                // (El adaptador maneja la selección internamente)
+                // Por ahora solo actualizamos la bandera
+            }
+        }
+    }
+
+    private fun updateFlagIcon() {
+        val region = RegionManager.findByTag(currentRegion)
+        binding.ivFlag.setImageResource(region.flagRes)
     }
 
     private fun showMenuDialog() {
@@ -118,78 +161,45 @@ class WallpaperFeedFragment : Fragment() {
     }
 
     private fun showRegionDialog() {
-        val regions = arrayOf(
-            " Worldwide",
-            " USA",
-            " Australia",
-            " España",
-            " UK",
-            " Japan"
-        )
+        val adapter = RegionListAdapter(requireContext(), RegionManager.REGIONS, currentRegion)
 
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(getString(R.string.region_dialog_title))
-            .setItems(regions) { _, which ->
-                when (which) {
-                    0 -> selectChip(binding.chipWorldwide)
-                    1 -> selectChip(binding.chipUSA)
-                    2 -> selectChip(binding.chipAustralia)
-                    else -> {
-                        Toast.makeText(requireContext(),
-                            getString(R.string.region_selected, regions[which]),
-                            Toast.LENGTH_SHORT).show()
-                    }
-                }
+            .setAdapter(adapter) { dialog, which ->
+                val selected = RegionManager.REGIONS[which]
+                onRegionSelected(selected)
+                dialog.dismiss()
             }
             .setNegativeButton(getString(R.string.cancel), null)
             .show()
     }
 
+    private fun onRegionSelected(region: RegionOption) {
+        currentRegion = region.localeTag
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            val prefs = PreferencesManager(requireContext())
+            prefs.saveRegion(region.localeTag)
+        }
+
+        // Actualizar idioma
+        val localeList = LocaleListCompat.forLanguageTags(region.localeTag)
+        AppCompatDelegate.setApplicationLocales(localeList)
+
+        // Actualizar bandera
+        updateFlagIcon()
+
+        // Mostrar mensaje
+        Toast.makeText(
+            requireContext(),
+            getString(R.string.region_filter_applied, region.countryName),
+            Toast.LENGTH_SHORT
+        ).show()
+    }
+
     private fun openUrl(url: String) {
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
         startActivity(intent)
-    }
-
-    private fun setupChips() {
-        val chips = listOf(
-            binding.chipWorldwide,
-            binding.chipUSA,
-            binding.chipAustralia
-        )
-
-        chips.forEach { chip ->
-            chip.setOnClickListener {
-                selectChip(chip)
-            }
-        }
-
-        binding.chipWorldwide.isChecked = true
-    }
-
-    private fun selectChip(selectedChip: Chip) {
-        val chips = listOf(
-            binding.chipWorldwide,
-            binding.chipUSA,
-            binding.chipAustralia
-        )
-
-        chips.forEach { chip ->
-            chip.isChecked = chip == selectedChip
-        }
-
-        val region = when (selectedChip.id) {
-            R.id.chipWorldwide -> "worldwide"
-            R.id.chipUSA -> "usa"
-            R.id.chipAustralia -> "australia"
-            else -> "worldwide"
-        }
-        onRegionSelected(region)
-    }
-
-    private fun onRegionSelected(region: String) {
-        Toast.makeText(requireContext(),
-            getString(R.string.region_filter_applied, region),
-            Toast.LENGTH_SHORT).show()
     }
 
     private fun setupViewPager() {

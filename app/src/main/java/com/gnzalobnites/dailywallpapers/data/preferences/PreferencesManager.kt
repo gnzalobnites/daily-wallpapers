@@ -23,6 +23,9 @@ class PreferencesManager(private val context: Context) {
         // NUEVAS: Preferencias para la hora de actualización
         val UPDATE_HOUR = intPreferencesKey("update_hour")
         val UPDATE_MINUTE = intPreferencesKey("update_minute")
+        
+        // NUEVA: Preferencia para la región
+        val REGION = stringPreferencesKey("region")
     }
     
     val autoUpdate: Flow<Boolean> = context.dataStore.data
@@ -55,6 +58,10 @@ class PreferencesManager(private val context: Context) {
     
     val updateMinute: Flow<Int> = context.dataStore.data
         .map { preferences -> preferences[UPDATE_MINUTE] ?: 0 }
+    
+    // NUEVA: Getter para la región
+    val region: Flow<String> = context.dataStore.data
+        .map { preferences -> preferences[REGION] ?: "es-ES" }
     
     suspend fun saveAutoUpdate(enabled: Boolean) {
         context.dataStore.edit { preferences ->
@@ -115,4 +122,11 @@ class PreferencesManager(private val context: Context) {
             preferences[UPDATE_MINUTE] = minute
         }
     }
-} 
+    
+    // NUEVA: Setter para la región
+    suspend fun saveRegion(regionTag: String) {
+        context.dataStore.edit { preferences ->
+            preferences[REGION] = regionTag
+        }
+    }
+}
