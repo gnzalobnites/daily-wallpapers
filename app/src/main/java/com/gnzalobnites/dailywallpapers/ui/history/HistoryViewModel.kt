@@ -6,7 +6,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.gnzalobnites.dailywallpapers.R
+import com.gnzalobnites.dailywallpapers.R  // ← ASEGÚRATE QUE ESTE IMPORT EXISTA
 import com.gnzalobnites.dailywallpapers.data.model.BingImage
 import com.gnzalobnites.dailywallpapers.data.repository.WallpaperRepository
 import kotlinx.coroutines.flow.collect
@@ -25,9 +25,16 @@ class HistoryViewModel(application: Application) : AndroidViewModel(application)
     private val _selectedImage = MutableLiveData<BingImage?>()
     val selectedImage: LiveData<BingImage?> = _selectedImage
     
-    // LiveData para mensajes tipo Toast
     private val _message = MutableLiveData<String?>()
     val message: LiveData<String?> = _message
+
+    private fun getString(id: Int): String {
+        return getApplication<Application>().getString(id)
+    }
+
+    private fun getString(id: Int, vararg args: Any): String {
+        return getApplication<Application>().getString(id, *args)
+    }
     
     init {
         loadHistory()
@@ -64,9 +71,7 @@ class HistoryViewModel(application: Application) : AndroidViewModel(application)
     fun toggleFavorite(image: BingImage) {
         viewModelScope.launch {
             repository.toggleFavorite(image)
-            // Recargar la lista actual para reflejar cambios
             if (wallpapers.value?.firstOrNull { it.startDate == image.startDate }?.isFavorite != image.isFavorite) {
-                // Si estamos en favoritos y quitamos favorito, recargar favoritos
                 if (image.isFavorite) {
                     loadFavorites()
                 } else {
@@ -80,7 +85,6 @@ class HistoryViewModel(application: Application) : AndroidViewModel(application)
         viewModelScope.launch {
             _isLoading.value = true
             try {
-                // Descargar el bitmap en alta calidad
                 val url = image.getFullHdUrl()
                 repository.downloadBitmap(url).onSuccess { bitmap ->
                     
@@ -91,12 +95,10 @@ class HistoryViewModel(application: Application) : AndroidViewModel(application)
                         "wallpaper-${System.currentTimeMillis()}.jpg"
                     }
                     
-                    // Guardarlo localmente
                     repository.saveToInternalStorage(bitmap, fileName).onSuccess { path ->
-                        repository.saveToHistory(image, path) // Actualiza el registro con la nueva ruta
+                        repository.saveToHistory(image, path)
                         _message.value = getApplication<Application>().getString(R.string.saved_internal_success)
                         
-                        // Recargar la lista para que la UI se actualice
                         if (image.isFavorite) loadFavorites() else loadHistory()
                     }.onFailure {
                         _message.value = getApplication<Application>().getString(R.string.error_saving_internal)
@@ -106,7 +108,8 @@ class HistoryViewModel(application: Application) : AndroidViewModel(application)
                     _message.value = getApplication<Application>().getString(R.string.error_downloading_image)
                 }
             } catch (e: Exception) {
-                _message.value = "Error: ${e.message}"
+                // CORREGIDO: Usar operador Elvis para manejar nullable
+                _message.value = getString(R.string.error_generic_with_message, e.message ?: "Unknown error")
             } finally {
                 _isLoading.value = false
             }

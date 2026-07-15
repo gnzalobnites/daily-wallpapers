@@ -60,6 +60,10 @@ class WeekFragment : BaseFeedFragment() {
         viewModel.loadWeekWallpapers()
     }
 
+    fun reload() {
+        if (view != null) loadData()
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

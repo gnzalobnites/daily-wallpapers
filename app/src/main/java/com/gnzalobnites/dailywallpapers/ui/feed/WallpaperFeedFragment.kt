@@ -180,6 +180,9 @@ class WallpaperFeedFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             val prefs = PreferencesManager(requireContext())
             prefs.saveRegion(region.localeTag)
+            // El save dispara la Flow de PreferencesManager.region; WeekViewModel
+            // no la escucha automáticamente, así que forzamos la recarga:
+            (childFragmentManager.findFragmentByTag("f0") as? WeekFragment)?.reload()
         }
 
         // Actualizar idioma
@@ -209,8 +212,8 @@ class WallpaperFeedFragment : Fragment() {
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
             tab.text = when (position) {
                 0 -> getString(R.string.tab_week)
-                1 -> getString(R.string.tab_collection)
-                2 -> getString(R.string.tab_community)
+                1 -> getString(R.string.tab_favorites)
+                2 -> getString(R.string.tab_history)
                 else -> ""
             }
         }.attach()

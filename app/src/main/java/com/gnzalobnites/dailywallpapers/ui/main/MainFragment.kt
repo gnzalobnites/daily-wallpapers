@@ -55,6 +55,11 @@ class MainFragment : Fragment() {
         viewModel.checkForUpdatesSilently()
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.loadTodayImage()
+    }
+
     private fun setupEdgeToEdge() {
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, windowInsets ->
             val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())

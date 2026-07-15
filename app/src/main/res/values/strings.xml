@@ -3,8 +3,12 @@
 
     <!-- Feed Tabs -->
     <string name="tab_week">This week</string>
-    <string name="tab_collection">Favoritos</string>
-    <string name="tab_community">Historial</string>
+    <string name="tab_collection">Collection</string>
+    <string name="tab_community">Community</string>
+    <string name="tab_favorites">Favorites</string>
+    <string name="tab_history">History</string>
+    <string name="history_filter_all">All</string>
+    <string name="history_filter_favorites">Favorites</string>
 
     <!-- Region Chips -->
     <string name="chip_worldwide">Worldwide</string>
@@ -20,6 +24,10 @@
     <string name="action_favorite">Favorite</string>
     <string name="action_apply">Apply</string>
     <string name="action_save">Save</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_set_wallpaper">Set wallpaper</string>
+    <string name="action_save_wallpaper">Save wallpaper</string>
+    <string name="action_share_wallpaper">Share</string>
 
     <!-- Toast messages -->
     <string name="added_to_favorites">Added to favorites</string>
@@ -31,18 +39,18 @@
 
     <!-- Donation -->
     <string name="donation_icon_desc">Donate</string>
-    <string name="donation_title">☕ Support the project</string>
+    <string name="donation_title">Support the project</string>
     <string name="donation_message">If you like Daily Wallpapers, consider making a donation to help keep the project active.</string>
-    <string name="donation_buy_me_coffee">☕ Buy Me a Coffee</string>
-    <string name="donation_paypal">💰 PayPal</string>
+    <string name="donation_buy_me_coffee">Buy me a coffee</string>
+    <string name="donation_paypal">PayPal</string>
 
     <!-- Menu -->
-    <string name="menu_settings">⚙️ Settings</string>
-    <string name="menu_about">ℹ️ About</string>
+    <string name="menu_settings">Settings</string>
+    <string name="menu_about">About</string>
 
     <!-- Region -->
     <string name="region_icon_desc">Region selector</string>
-    <string name="region_dialog_title">🌍 Select region</string>
+    <string name="region_dialog_title">Select region</string>
     <string name="region_filter_applied">Filter applied: %s</string>
     <string name="region_selected">Region selected: %s</string>
 
@@ -57,7 +65,7 @@
     <string name="file_saved_at">File saved at:</string>
     
     <!-- Notification permission -->
-    <string name="notification_permission_title">Enable Notifications</string>
+    <string name="notification_permission_title">Enable notifications</string>
     <string name="notification_permission_message">To make sure you know when your wallpaper has been successfully updated or if there was any issue, we need your permission to show notifications.</string>
     <string name="notification_permission_continue">Continue</string>
     <string name="notification_permission_later">Not now</string>
@@ -68,16 +76,16 @@
     <string name="auto_update_activated_message">Auto-update enabled when schedule was set</string>
     
     <!-- Onboarding -->
-    <string name="onboarding_title">Initial Setup</string>
-    <string name="onboarding_message">To run background tasks at the exact time you set, you need to enable the Alarms &amp; Reminders permission.\n\nThis permission allows the wallpaper to update automatically at the scheduled time, even when the app is closed.</string>
+    <string name="onboarding_title">Initial setup</string>
+    <string name="onboarding_message">To run background tasks at the exact time you set, you need to enable the Alarms and Reminders permission.\n\nThis permission allows the wallpaper to update automatically at the scheduled time, even when the app is closed.</string>
     <string name="onboarding_benefits_title">Benefits of granting permission:</string>
-    <string name="onboarding_benefit_auto_update">✓ Daily automatic update</string>
-    <string name="onboarding_benefit_auto_apply">✓ Automatic wallpaper application</string>
-    <string name="onboarding_benefit_precise_schedule">✓ Precise scheduling at your chosen time</string>
-    <string name="onboarding_button_grant">Grant Permission</string>
+    <string name="onboarding_benefit_auto_update">Daily automatic update</string>
+    <string name="onboarding_benefit_auto_apply">Automatic wallpaper application</string>
+    <string name="onboarding_benefit_precise_schedule">Precise scheduling at your chosen time</string>
+    <string name="onboarding_button_grant">Grant permission</string>
     <string name="onboarding_skip">Skip for now</string>
     <string name="onboarding_toast_skip">You can grant the permission later from Settings</string>
-    <string name="onboarding_toast_granted">Permission granted! Automatic updates will work correctly.</string>
+    <string name="onboarding_toast_granted">Permission granted. Automatic updates will work correctly.</string>
     <string name="onboarding_toast_denied">Permission not granted. Automatic updates may be delayed.</string>
     
     <!-- Titles -->
@@ -97,9 +105,6 @@
     <string name="menu_history">History</string>
     <string name="menu_all">All</string>
     <string name="menu_favorites">Favorites</string>
-    
-    <!-- Action -->
-    <string name="action_settings">Settings</string>
     
     <!-- Auto update section -->
     <string name="settings_auto_update">Auto update</string>
@@ -203,6 +208,7 @@
     <!-- Others -->
     <string name="logout">Logout</string>
     <string name="share">Share</string>
+    <string name="back">Back</string>
     
     <!-- Alarm & Update strings -->
     <string name="need_exact_alarm_permission">For automatic updates, you need to allow exact alarms. Please grant the permission on the next screen.</string>
@@ -225,10 +231,10 @@
     <string name="notification_channel_error_description">Notifications when automatic wallpaper update fails</string>
 
     <!-- DailyWallpaperWorker - Success notification -->
-    <string name="notification_success_message">Today\&#39;s wallpaper has been applied.</string>
+    <string name="notification_success_message">Today\'s wallpaper has been applied.</string>
 
     <!-- DailyWallpaperWorker - Error messages -->
-    <string name="error_connection_failed">Could not connect to the server to get today\&#39;s wallpaper.</string>
+    <string name="error_connection_failed">Could not connect to the server to get today\'s wallpaper.</string>
     <string name="error_processing_bing_data">Error processing Bing image data.</string>
     <string name="error_image_retrieval_failed">Failed to retrieve image (neither in cache nor network).</string>
     <string name="error_critical">A critical error occurred: %s</string>
@@ -241,10 +247,59 @@
     <string name="log_notification_error">Error showing notification: %s</string>
 
     <!-- Fullscreen Preview -->
-    <string name="action_set_wallpaper">Set wallpaper</string>
-    <string name="action_save_wallpaper">Save wallpaper</string>
-    <string name="action_share_wallpaper">Share</string>
-    <string name="back">Back</string>
-    <string name="preview_title">%s · %s</string>
+    <string name="preview_title" formatted="false">%s · %s</string>
 
+    <!-- Navigation actions -->
+    <string name="action_main_to_settings">Navigate to settings</string>
+    <string name="action_main_to_about">Navigate to about</string>
+    <string name="action_main_to_history">Navigate to history</string>
+    <string name="action_onboarding_to_main">Navigate to main</string>
+    <string name="action_feed_to_settings">Navigate to settings</string>
+    <string name="action_feed_to_about">Navigate to about</string>
+
+    <!-- ===== CADENAS AGREGADAS PARA REEMPLAZAR TEXTO HARCODEADO (INGLÉS) ===== -->
+
+<!-- HistoryViewModel -->
+<string name="error_generic_with_message">Error: %s</string>
+
+<!-- MainViewModel -->
+<string name="error_favorite_update">Error updating favorite: %s</string>
+
+<!-- WeekViewModel -->
+<string name="error_loading_week">Error loading: %s</string>
+
+<!-- SettingsFragment -->
+<string name="auto_update_activated_at">Automatic update activated at %s</string>
+
+<!-- GalleryFragment -->
+<string name="gallery_fragment_title">Gallery</string>
+
+<!-- HomeFragment -->
+<string name="home_fragment_title">Home</string>
+
+<!-- SlideshowFragment -->
+<string name="slideshow_fragment_title">Slideshow</string>
+
+<!-- HistoryFragment -->
+<string name="history_empty_text">No images in history</string>
+
+<!-- DailyWallpaperWorker - Log messages (opcional, para logs) -->
+<string name="log_daily_wallpaper_cache_file">daily_wallpaper_cache.jpg</string>
+
+
+
+
+
+<!-- AlarmScheduler - Log messages -->
+<string name="log_alarm_scheduled">Alarm scheduled for %02d:%02d</string>
+<string name="log_alarm_cancelled">Alarm cancelled</string>
+<string name="log_alarm_permission_denied">Cannot schedule exact alarms - permission denied</string>
+<string name="log_alarm_error">Error scheduling alarm: %s</string>
+
+<!-- WorkerScheduler -->
+<string name="backup_work_name">daily_wallpaper_backup_work</string>
+
+<!-- ImagePreviewDialog -->
+<string name="set_as_wallpaper">Set as wallpaper</string>
+    
 </resources>

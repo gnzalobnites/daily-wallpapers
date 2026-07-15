@@ -13,6 +13,7 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.gnzalobnites.dailywallpapers.MainActivity
 import com.gnzalobnites.dailywallpapers.R
+import com.gnzalobnites.dailywallpapers.RegionManager
 import com.gnzalobnites.dailywallpapers.data.repository.WallpaperRepository
 import com.gnzalobnites.dailywallpapers.data.preferences.PreferencesManager
 import kotlinx.coroutines.CancellationException
@@ -48,7 +49,8 @@ class DailyWallpaperWorker(
                 return@withContext Result.success()
             }
 
-            val result = repository.getTodayImage()
+            val market = RegionManager.findMarketByTag(prefs.region.first())
+            val result = repository.getTodayImage(market)
             if (result.isFailure) {
                 showErrorNotification(appContext.getString(R.string.error_connection_failed))
                 reprogramarParaManana(prefs)

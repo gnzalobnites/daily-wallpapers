@@ -288,7 +288,8 @@ class SettingsFragment : Fragment() {
                 } else if (success) {
                     Toast.makeText(
                         requireContext(), 
-                        "Actualización automática activada a las ${String.format("%02d:%02d", selectedHour, selectedMinute)}", 
+                        // "Actualización automática activada a las ${String.format("%02d:%02d", selectedHour, selectedMinute)}",
+                        getString(R.string.auto_update_activated_at, String.format("%02d:%02d", selectedHour, selectedMinute)),  
                         Toast.LENGTH_SHORT
                     ).show()
                 }

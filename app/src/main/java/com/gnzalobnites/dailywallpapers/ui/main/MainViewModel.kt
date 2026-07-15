@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide
 import com.gnzalobnites.dailywallpapers.R
 import com.gnzalobnites.dailywallpapers.data.model.BingImage
 import com.gnzalobnites.dailywallpapers.data.preferences.PreferencesManager
+import com.gnzalobnites.dailywallpapers.RegionManager
 import com.gnzalobnites.dailywallpapers.utils.SingleLiveEvent
 import com.gnzalobnites.dailywallpapers.data.repository.WallpaperRepository
 import kotlinx.coroutines.launch
@@ -57,7 +58,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch {
             _isLoading.postValue(true)
             _errorMessage.postValue(null)
-            repository.getTodayImage().onSuccess { image ->
+            val market = RegionManager.findMarketByTag(preferences.region.first())
+            repository.getTodayImage(market).onSuccess { image ->
                 _currentImage.postValue(image)
                 loadImageBitmap(image)
             }.onFailure { exception ->
@@ -160,7 +162,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                     if (isShownInHome) _currentImage.postValue(updated)
                 }
             } catch (e: Exception) {
-                _errorMessage.postValue("Error al actualizar favorito: ${e.message}")
+                // _errorMessage.postValue("Error al actualizar favorito: ${e.message}")
+                _errorMessage.postValue(getString(R.string.error_favorite_update, e.message ?: "Unknown error"))
             }
         }
     }
@@ -181,7 +184,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 
                 if (lastCheckDate == today) return@launch
 
-                val result = repository.getTodayImage()
+                val market = RegionManager.findMarketByTag(preferences.region.first())
+                val result = repository.getTodayImage(market)
                 val latestImage = result.getOrNull() ?: return@launch
 
                 val lastAppliedDate = preferences.lastAppliedDate.first()

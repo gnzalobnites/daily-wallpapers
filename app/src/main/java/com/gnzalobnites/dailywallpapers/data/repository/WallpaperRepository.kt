@@ -33,9 +33,9 @@ class WallpaperRepository(private val context: Context) {
     val allWallpapers: Flow<List<BingImage>> = wallpaperDao.getAllWallpapers()
     val favoriteWallpapers: Flow<List<BingImage>> = wallpaperDao.getFavoriteWallpapers()
     
-    suspend fun getTodayImage(): Result<BingImage> {
+    suspend fun getTodayImage(market: String): Result<BingImage> {
         return try {
-            val response = api.getDailyImage()
+            val response = api.getDailyImage(market = market)
             val image = response.images.firstOrNull()
             
             image?.let {
@@ -48,9 +48,9 @@ class WallpaperRepository(private val context: Context) {
         }
     }
     
-    suspend fun getLastImages(count: Int = 8): Result<List<BingImage>> {
+    suspend fun getLastImages(count: Int = 8, market: String): Result<List<BingImage>> {
         return try {
-            val response = api.getLastImages(index = 0, count = count)
+            val response = api.getLastImages(index = 0, count = count, market = market)
             Result.success(response.images)
         } catch (e: CancellationException) {
             throw e

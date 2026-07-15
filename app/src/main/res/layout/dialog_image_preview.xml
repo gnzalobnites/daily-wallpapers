@@ -57,7 +57,7 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginTop="16dp"
-            android:text="Establecer como fondo"
+            android:text="@string/set_as_wallpaper"
             android:textColor="@android:color/white"
             app:strokeColor="@android:color/white"
             app:strokeWidth="1dp"
