@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.TextView  // ← AÑADIR ESTE IMPORT
 
 class RegionListAdapter(
     context: android.content.Context,
@@ -22,8 +23,8 @@ class RegionListAdapter(
 
         val region = regions[position]
         view.findViewById<android.widget.ImageView>(R.id.ivRegionFlag).setImageResource(region.flagRes)
-        view.findViewById<android.widget.TextView>(R.id.tvRegionCountry).text = region.countryName
-        view.findViewById<android.widget.TextView>(R.id.tvRegionLanguage).text = region.languageName
+        view.findViewById<TextView>(R.id.tvRegionCountry).text = context.getString(region.countryNameResId)
+        view.findViewById<TextView>(R.id.tvRegionLanguage).text = context.getString(region.languageNameResId)
         view.findViewById<android.widget.ImageView>(R.id.ivRegionCheck).visibility =
             if (region.localeTag == selectedTag) View.VISIBLE else View.GONE
 

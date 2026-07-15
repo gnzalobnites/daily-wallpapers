@@ -45,8 +45,8 @@
     <string name="donation_paypal">PayPal</string>
 
     <!-- Menu -->
-    <string name="menu_settings">Ajustes</string>
-    <string name="menu_about">Acerca de</string>
+    <string name="menu_settings">⚙️ Ajustes</string>
+    <string name="menu_about">ℹ️ Acerca de</string>
 
     <!-- Region -->
     <string name="region_icon_desc">Selector de región</string>
@@ -300,4 +300,29 @@
 
     <!-- MainFragment - Botones sin texto visible (solo iconos) no necesitan string -->
     
+<!-- Region names - Spanish -->
+<string name="region_worldwide">Mundial</string>
+<string name="region_spain">España</string>
+<string name="region_argentina">Argentina</string>
+<string name="region_mexico">México</string>
+<string name="region_usa">Estados Unidos</string>
+<string name="region_uk">Reino Unido</string>
+<string name="region_australia">Australia</string>
+<string name="region_germany">Alemania</string>
+<string name="region_france">Francia</string>
+<string name="region_italy">Italia</string>
+<string name="region_brazil">Brasil</string>
+<string name="region_japan">Japón</string>
+<string name="region_china">China</string>
+
+<!-- Language names - Spanish -->
+<string name="lang_english">Inglés</string>
+<string name="lang_spanish">Español</string>
+<string name="lang_german">Alemán</string>
+<string name="lang_french">Francés</string>
+<string name="lang_italian">Italiano</string>
+<string name="lang_portuguese">Portugués</string>
+<string name="lang_japanese">Japonés</string>
+<string name="lang_chinese">Chino</string>
+
 </resources>

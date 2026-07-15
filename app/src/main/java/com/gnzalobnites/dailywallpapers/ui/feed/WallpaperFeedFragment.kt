@@ -195,7 +195,8 @@ class WallpaperFeedFragment : Fragment() {
         // Mostrar mensaje
         Toast.makeText(
             requireContext(),
-            getString(R.string.region_filter_applied, region.countryName),
+            //getString(R.string.region_filter_applied, region.countryName),
+            getString(R.string.region_filter_applied, getString(region.countryNameResId)),
             Toast.LENGTH_SHORT
         ).show()
     }

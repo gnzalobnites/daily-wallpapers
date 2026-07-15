@@ -37,7 +37,8 @@ class RegionChipAdapter(
 
         fun bind(region: RegionOption, isSelected: Boolean, onClick: () -> Unit) {
             binding.root.apply {
-                text = region.countryName
+                //text = region.countryName
+                text = binding.root.context.getString(region.countryNameResId)
                 chipIcon = context.getDrawable(region.flagRes)
                 isChecked = isSelected
                 setOnClickListener { onClick() }
