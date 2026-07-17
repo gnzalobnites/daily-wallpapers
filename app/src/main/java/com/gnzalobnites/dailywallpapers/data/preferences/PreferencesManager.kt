@@ -18,6 +18,9 @@ class PreferencesManager(private val context: Context) {
         val DARK_MODE = stringPreferencesKey("dark_mode")
         val LANGUAGE = stringPreferencesKey("language")
         val LAST_APPLIED_DATE = stringPreferencesKey("last_applied_date")
+        // NUEVA: llave interna del Worker para el guard anti-duplicados,
+        // independiente de las aplicaciones manuales del usuario.
+        val LAST_AUTO_APPLY_TRIGGER = stringPreferencesKey("last_auto_apply_trigger")
         val LAST_UPDATE_CHECK = stringPreferencesKey("last_update_check")
         
         // NUEVAS: Preferencias para la hora de actualización
@@ -48,6 +51,11 @@ class PreferencesManager(private val context: Context) {
     
     val lastAppliedDate: Flow<String?> = context.dataStore.data
         .map { preferences -> preferences[LAST_APPLIED_DATE] }
+    
+    // NUEVO: usado únicamente por DailyWallpaperWorker para saber si ya
+    // se ejecutó la aplicación automática para el horario programado actual.
+    val lastAutoApplyTrigger: Flow<String?> = context.dataStore.data
+        .map { preferences -> preferences[LAST_AUTO_APPLY_TRIGGER] }
     
     val lastUpdateCheck: Flow<String?> = context.dataStore.data
         .map { preferences -> preferences[LAST_UPDATE_CHECK] }
@@ -105,6 +113,16 @@ class PreferencesManager(private val context: Context) {
                 preferences.remove(LAST_APPLIED_DATE)
             } else {
                 preferences[LAST_APPLIED_DATE] = date
+            }
+        }
+    }
+    
+    suspend fun saveLastAutoApplyTrigger(trigger: String?) {
+        context.dataStore.edit { preferences ->
+            if (trigger == null) {
+                preferences.remove(LAST_AUTO_APPLY_TRIGGER)
+            } else {
+                preferences[LAST_AUTO_APPLY_TRIGGER] = trigger
             }
         }
     }

@@ -63,15 +63,24 @@ class DailyWallpaperWorker(
                 return@withContext Result.retry()
             }
             
-            val lastApplied = prefs.lastAppliedDate.first()
-            val alreadyAppliedToday = latestBingImage.startDate == lastApplied
+            // Llave propia del Worker: combina la fecha de la imagen con el
+            // horario programado. Esto la desacopla de `lastAppliedDate`, que
+            // también escriben las aplicaciones manuales del usuario (Home,
+            // Historial, Favoritos). Si el usuario reprograma la hora/minuto,
+            // la llave cambia y el Worker vuelve a aplicar el fondo, sin
+            // importar cuántas veces se haya aplicado manualmente mientras tanto.
+            val scheduledHour = prefs.updateHour.first()
+            val scheduledMinute = prefs.updateMinute.first()
+            val currentTrigger = "${latestBingImage.startDate}|$scheduledHour|$scheduledMinute"
+            val lastAutoApplyTrigger = prefs.lastAutoApplyTrigger.first()
+            val alreadyAppliedForThisTrigger = currentTrigger == lastAutoApplyTrigger
 
             // Aplicar el wallpaper solo si el autoApply está activado y todavía
-            // no se aplicó hoy. Esta guarda evita que la alarma exacta y el
-            // respaldo periódico de WorkManager dupliquen la aplicación del
-            // wallpaper y la notificación de éxito cuando ambos se disparan
-            // dentro de la misma ventana de 24 horas.
-            if (autoApplyEnabled && !alreadyAppliedToday) {
+            // no se aplicó para este horario programado. Esta guarda evita que
+            // la alarma exacta y el respaldo periódico de WorkManager dupliquen
+            // la aplicación del wallpaper y la notificación de éxito cuando ambos
+            // se disparan para el mismo horario programado.
+            if (autoApplyEnabled && !alreadyAppliedForThisTrigger) {
                 // Definimos un archivo temporal en la caché segura de la app
                 val cacheFile = File(appContext.cacheDir, CACHE_FILE_NAME)
 
@@ -104,6 +113,7 @@ class DailyWallpaperWorker(
                     }
 
                     prefs.saveLastAppliedDate(latestBingImage.startDate)
+                    prefs.saveLastAutoApplyTrigger(currentTrigger)
                     showSuccessNotification(appContext)
                 } else {
                     showErrorNotification(appContext.getString(R.string.error_image_retrieval_failed))
